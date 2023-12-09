@@ -25,18 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_042052) do
 
   create_table "clusters", force: :cascade do |t|
     t.string "name"
-    t.bigint "conjunto_id"
+    t.bigint "zone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conjunto_id"], name: "index_clusters_on_conjunto_id"
-  end
-
-  create_table "conjuntos", force: :cascade do |t|
-    t.string "name"
-    t.bigint "region_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["region_id"], name: "index_conjuntos_on_region_id"
+    t.index ["zone_id"], name: "index_clusters_on_zone_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -54,8 +46,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_042052) do
     t.index ["region_id"], name: "index_states_on_region_id"
   end
 
+  create_table "zones", force: :cascade do |t|
+    t.string "name"
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_zones_on_region_id"
+  end
+
   add_foreign_key "cities", "states"
-  add_foreign_key "clusters", "conjuntos"
-  add_foreign_key "conjuntos", "regions"
+  add_foreign_key "clusters", "zones"
   add_foreign_key "states", "regions"
+  add_foreign_key "zones", "regions"
 end
