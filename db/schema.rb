@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_09_024315) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_09_042052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_024315) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["state_id"], name: "index_cities_on_state_id"
+  end
+
+  create_table "clusters", force: :cascade do |t|
+    t.string "name"
+    t.bigint "conjunto_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conjunto_id"], name: "index_clusters_on_conjunto_id"
+  end
+
+  create_table "conjuntos", force: :cascade do |t|
+    t.string "name"
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["region_id"], name: "index_conjuntos_on_region_id"
   end
 
   create_table "regions", force: :cascade do |t|
@@ -39,5 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_024315) do
   end
 
   add_foreign_key "cities", "states"
+  add_foreign_key "clusters", "conjuntos"
+  add_foreign_key "conjuntos", "regions"
   add_foreign_key "states", "regions"
 end
