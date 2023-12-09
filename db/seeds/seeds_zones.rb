@@ -48,13 +48,15 @@ zones_data = {
     { name: "Isolado" }
   ],
   "Nordeste" => [
-    { name: "1" },
-    { name: "2" },
-    { name: "3" },
-    { name: "4" },
-    { name: "5" },
-    { name: "6" },
-    { name: "7" }
+    { name: "Conjunto A" },
+    { name: "Conjunto B" },
+    { name: "Conjunto C" },
+    { name: "Conjunto D" },
+    { name: "Conjunto E" },
+    { name: "Conjunto F" },
+    { name: "Conjunto G" },
+    { name: "Conjunto H" },
+    { name: "Conjunto I" }
   ],
   "Sul" => [
     { name: "S01" },
