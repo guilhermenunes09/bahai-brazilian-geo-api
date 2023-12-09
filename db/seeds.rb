@@ -1,5 +1,7 @@
 
-Dir[Rails.root.join('db/seeds/**/*.rb')].sort.each do |file|
-  puts "Loading seed file: #{file}"
-  load file
-end
+
+
+
+# Load seed files in this order
+load File.expand_path('seeds/seeds_regions.rb', __dir__)
+load File.expand_path('seeds/seeds_zones.rb', __dir__)
