@@ -1,5 +1,5 @@
 class ClusterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :zone
+  attributes :id, :name, :milestone, :zone
 
   def zone
     {

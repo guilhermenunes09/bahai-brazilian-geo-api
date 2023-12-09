@@ -1,118 +1,310 @@
 
 puts "Seeding Clusters South"
 clusters_data = [
-  { conjunto: "S01", clusters: ["Alvorecer da Unidade", "Tramandaí", "Porto Radiante", "Portal da Glória"] },
-  { conjunto: "S02", clusters: ["Chapecó", "Luzes do Planalto", "Esplendor da Serra", "Gramado", "Sinos da Paz", "Passos de Torres"] },
-  { conjunto: "S03", clusters: ["Santa Maria", "Montenegro", "Portal de Núr", "Pelotas", "Santana do Livramento"] },
-  { conjunto: "S04", clusters: ["Raio de Luz", "Vale das Flores", "Piçarras", "Rio do Sul", "Brusque", "Porto do Sul", "São Bento do Sul"] },
-  { conjunto: "S05", clusters: ["Pescadores de Pérolas", "Lages", "Palhoça", "Tubarão"] },
-  { conjunto: "S06", clusters: ["Umuarama", "Uniflor", "Vagalume", "Estrela Brilhante", "Arapongas", "Alvorada da Paz", "Esplendor das Águas"] },
-  { conjunto: "S07", clusters: ["Castro", "Campos Gerais", "Campo Largo", "Gralha Azul", "Ondas de Unidade", "Suaves Brisas", "Araucárias"] }
+  { name: "Alvorecer da Unidade", milestone: 1, conjunto: "S01" },
+  { name: "Tramandaí", milestone: 1, conjunto: "S01" },
+  { name: "Porto Radiante", milestone: 2, conjunto: "S01" },
+  { name: "Portal da Glória", milestone: 1, conjunto: "S01" },
+
+  { name: "Chapecó", milestone: 1, conjunto: "S02" },
+  { name: "Luzes do Planalto", milestone: 1, conjunto: "S02" },
+  { name: "Esplendor da Serra", milestone: 1, conjunto: "S02" },
+  { name: "Gramado", milestone: 1, conjunto: "S02" },
+  { name: "Sinos da Paz", milestone: 1, conjunto: "S02" },
+  { name: "Passos de Torres", milestone: 1, conjunto: "S02" },
+
+  { name: "Santa Maria", milestone: 1, conjunto: "S03" },
+  { name: "Montenegro", milestone: 1, conjunto: "S03" },
+  { name: "Portal de Núr", milestone: 1, conjunto: "S03" },
+  { name: "Pelotas", milestone: 1, conjunto: "S03" },
+  { name: "Santana do Livramento", milestone: 1, conjunto: "S03" },
+
+  { name: "Raio de Luz", milestone: 1, conjunto: "S04" },
+  { name: "Vale das Flores", milestone: 1, conjunto: "S04" },
+  { name: "Piçarras", milestone: 1, conjunto: "S04" },
+  { name: "Rio do Sul", milestone: 1, conjunto: "S04" },
+  { name: "Brusque", milestone: 1, conjunto: "S04" },
+  { name: "Porto do Sul", milestone: 1, conjunto: "S04" },
+  { name: "São Bento do Sul", milestone: 1, conjunto: "S04" },
+
+  { name: "Pescadores de Pérolas", milestone: 1, conjunto: "S05" },
+  { name: "Lages", milestone: 1, conjunto: "S05" },
+  { name: "Palhoça", milestone: 1, conjunto: "S05" },
+  { name: "Tubarão", milestone: 1, conjunto: "S05" },
+
+  { name: "Umuarama", milestone: 1, conjunto: "S06" },
+  { name: "Uniflor", milestone: 1, conjunto: "S06" },
+  { name: "Vagalume", milestone: 1, conjunto: "S06" },
+  { name: "Estrela Brilhante", milestone: 1, conjunto: "S06" },
+  { name: "Arapongas", milestone: 1, conjunto: "S06" },
+  { name: "Alvorada da Paz", milestone: 1, conjunto: "S06" },
+  { name: "Esplendor das Águas", milestone: 1, conjunto: "S06" },
+
+  { name: "Castro", milestone: 1, conjunto: "S07" },
+  { name: "Campos Gerais", milestone: 1, conjunto: "S07" },
+  { name: "Campo Largo", milestone: 1, conjunto: "S07" },
+  { name: "Gralha Azul", milestone: 3, conjunto: "S07" },
+  { name: "Ondas de Unidade", milestone: 2, conjunto: "S07" },
+  { name: "Suaves Brisas", milestone: 2, conjunto: "S07" },
+  { name: "Araucárias", milestone: 2, conjunto: "S07" }
 ]
 
 # Seed clusters
 clusters_data.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
-  
-  data[:clusters].each do |cluster_name|
-    cluster = conjunto.clusters.find_or_create_by(name: cluster_name.strip)
-    puts "  Created cluster: #{cluster.name}"
-  end
+
+  cluster = conjunto.clusters.find_or_create_by(
+    name: data[:name].strip,
+    milestone: data[:milestone]
+  )
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
+
+
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+
 
 puts "Seeding Clusters Nordeste"
 clusters_data_nordeste = [
-  { conjunto: "Conjunto A", clusters: ["Grande Fortaleza", "Jenipapo Kanindé", "Tapeba"] },
-  { conjunto: "Conjunto B", clusters: ["Heróis de Deus", "Extremoz", "Ceará Mirim"] },
-  { conjunto: "Conjunto C", clusters: ["Juarez Távora/Ingá", "Campina Grande", "Portal do Sol"] },
-  { conjunto: "Conjunto D", clusters: ["Fênix", "Olinda", "Cabo de Santo Agostinho", "Camarajibe"] },
-  { conjunto: "Conjunto E", clusters: ["Fulniô/Águas Belas", "Kariri-Xocó", "Xucuru-Kariri", "Karapotó"] },
-  { conjunto: "Conjunto F", clusters: ["Águas da Vida", "São Miguel dos Milagres"] },
-  { conjunto: "Conjunto G", clusters: ["Jardim do Ridvan", "São Cristovão", "Laranjeiras"] },
-  { conjunto: "Conjunto H", clusters: ["Polo Petroquímico (Simões Filho)", "Cidade da Bahia", "Estrada de coco", "Feira de Santana", "Recôncavo Baiano", "Imbassaí"] },
-  { conjunto: "Conjunto I", clusters: ["Ribeira do Pombal", "Kiriri"] }
+  { name: "Grande Fortaleza", milestone: 1, conjunto: "Conjunto A" },
+  { name: "Jenipapo Kanindé", milestone: 1, conjunto: "Conjunto A" },
+  { name: "Tapeba", milestone: 1, conjunto: "Conjunto A" },
+  { name: "Ceará Mirim", milestone: 1, conjunto: "Conjunto B" },
+
+  { name: "Heróis de Deus", milestone: 2, conjunto: "Conjunto B" },
+  { name: "Extremoz", milestone: 2, conjunto: "Conjunto B" },
+
+  { name: "Juarez Távora/Ingá", milestone: 1, conjunto: "Conjunto C" },
+  { name: "Campina Grande", milestone: 1, conjunto: "Conjunto C" },
+  { name: "Portal do Sol", milestone: 1, conjunto: "Conjunto C" },
+
+  { name: "Fênix", milestone: 2, conjunto: "Conjunto D" },
+  { name: "Olinda", milestone: 2, conjunto: "Conjunto D" },
+  { name: "Cabo de Santo Agostinho", milestone: 2, conjunto: "Conjunto D" },
+  { name: "Camarajibe", milestone: 2, conjunto: "Conjunto D" },
+
+  { name: "Fulniô/Águas Belas", milestone: 1, conjunto: "Conjunto E" },
+  { name: "Kariri-Xocó", milestone: 1, conjunto: "Conjunto E" },
+  { name: "Xucuru-Kariri", milestone: 1, conjunto: "Conjunto E" },
+  { name: "Karapotó", milestone: 1, conjunto: "Conjunto E" },
+
+  { name: "Águas da Vida", milestone: 2, conjunto: "Conjunto F" },
+  { name: "São Miguel dos Milagres", milestone: 2, conjunto: "Conjunto F" },
+
+  { name: "Jardim do Ridvan", milestone: 3, conjunto: "Conjunto G" },
+  { name: "São Cristovão", milestone: 3, conjunto: "Conjunto G" },
+  { name: "Laranjeiras", milestone: 3, conjunto: "Conjunto G" },
+
+  { name: "Polo Petroquímico (Simões Filho)", milestone: 1, conjunto: "Conjunto H" },
+  { name: "Cidade da Bahia", milestone: 1, conjunto: "Conjunto H" },
+  { name: "Estrada de coco", milestone: 1, conjunto: "Conjunto H" },
+  { name: "Feira de Santana", milestone: 1, conjunto: "Conjunto H" },
+  { name: "Recôncavo Baiano", milestone: 1, conjunto: "Conjunto H" },
+  { name: "Imbassaí", milestone: 1, conjunto: "Conjunto H" },
+
+  { name: "Ribeira do Pombal", milestone: 1, conjunto: "Conjunto I" },
+  { name: "Kiriri", milestone: 1, conjunto: "Conjunto I" }
 ]
 
-# Seed clusters for Nordeste region
+# Seed clusters
 clusters_data_nordeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
-  
-  data[:clusters].each do |cluster_name|
-    cluster = conjunto.clusters.find_or_create_by(name: cluster_name.strip)
-    puts "  Created cluster: #{cluster.name}"
-  end
+
+  cluster = conjunto.clusters.find_or_create_by(
+    name: data[:name].strip,
+    milestone: data[:milestone]
+  )
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
+
+
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+
 
 puts "Seeding Clusters Centro-Oeste"
 clusters_data_centro_oeste = [
-  { conjunto: "CO1", clusters: ["Esplendor da Glória", "Catalão", "Uberaba"] },
-  { conjunto: "CO2", clusters: ["Goyazes", "Pirenópolis", "Núr", "Cristalina", "Senador Canedo"] },
-  { conjunto: "CO3", clusters: ["Falcão Real", "Valparaíso de Goiás", "Formosa", "Santo Antônio do Descoberto", "Luziânia", "Cidade Ocidental"] },
-  { conjunto: "CO5", clusters: ["Sinop", "Tuiuiú", "Nova Mutum"] },
-  { conjunto: "CO6", clusters: ["Glória", "Arenápolis", "Cáceres", "Campo Novo dos Parecis"] },
-  { conjunto: "CO7", clusters: ["Canto do Rouxinol", "Aquidauana", "São Gabriel do Oeste"] },
-  { conjunto: "CO8", clusters: ["Terra Dourada", "Jardim", "Rio Brilhante"] },
-  { conjunto: "CO9", clusters: ["Girassóis", "Porto Nacional", "Gurupi"] }
+  { name: "Esplendor da Glória", milestone: 2, conjunto: "CO1" },
+  { name: "Catalão", milestone: 2, conjunto: "CO1" },
+  { name: "Uberaba", milestone: 1, conjunto: "CO1" },
+
+  { name: "Goyazes", milestone: 2, conjunto: "CO2" },
+  { name: "Pirenópolis", milestone: 1, conjunto: "CO2" },
+  { name: "Núr", milestone: 2, conjunto: "CO2" },
+  { name: "Cristalina", milestone: 1, conjunto: "CO2" },
+  { name: "Senador Canedo", milestone: 1, conjunto: "CO2" },
+
+  { name: "Falcão Real", milestone: 3, conjunto: "CO3" },
+  { name: "Valparaíso de Goiás", milestone: 1, conjunto: "CO3" },
+  { name: "Formosa", milestone: 1, conjunto: "CO3" },
+  { name: "Santo Antônio do Descoberto", milestone: 3, conjunto: "CO3" },
+  { name: "Luziânia", milestone: 2, conjunto: "CO3" },
+  { name: "Cidade Ocidental", milestone: 1, conjunto: "CO3" },
+
+  { name: "Sinop", milestone: 2, conjunto: "CO5" },
+  { name: "Tuiuiú", milestone: 2, conjunto: "CO5" },
+  { name: "Nova Mutum", milestone: 1, conjunto: "CO5" },
+
+  { name: "Glória", milestone: 3, conjunto: "CO6" },
+  { name: "Arenápolis", milestone: 2, conjunto: "CO6" },
+  { name: "Cáceres", milestone: 2, conjunto: "CO6" },
+  { name: "Campo Novo dos Parecis", milestone: 1, conjunto: "CO6" },
+
+  { name: "Canto do Rouxinol", milestone: 3, conjunto: "CO7" },
+  { name: "Aquidauana", milestone: 1, conjunto: "CO7" },
+  { name: "São Gabriel do Oeste", milestone: 1, conjunto: "CO7" },
+
+  { name: "Terra Dourada", milestone: 2, conjunto: "CO8" },
+  { name: "Jardim", milestone: 1, conjunto: "CO8" },
+  { name: "Rio Brilhante", milestone: 2, conjunto: "CO8" },
+
+  { name: "Girassóis", milestone: 2, conjunto: "CO9" },
+  { name: "Porto Nacional", milestone: 0, conjunto: "CO9" },
+  { name: "Gurupi", milestone: 2, conjunto: "CO9" }
 ]
 
-# Seed clusters for Centro-Oeste region
+# Seed clusters
 clusters_data_centro_oeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
-  
-  data[:clusters].each do |cluster_name|
-    cluster = conjunto.clusters.find_or_create_by(name: cluster_name.strip)
-    puts "  Created cluster: #{cluster.name}"
-  end
+
+  cluster = conjunto.clusters.find_or_create_by(
+    name: data[:name].strip,
+    milestone: data[:milestone]
+  )
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
+
+
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+
 
 puts "Seeding Clusters Norte"
 clusters_data_norte = [
-  { conjunto: "N1", clusters: ["Luz", "Raio de Luz", "José de Freitas"] },
-  { conjunto: "N2", clusters: ["Rouxinol do Paraíso", "Jangada de Luz", "Paço de Luz"] },
-  { conjunto: "N3", clusters: ["Açai", "Mazagão"] },
-  { conjunto: "N4", clusters: ["Pérola", "Luz da terra"] },
-  { conjunto: "Isolado", clusters: ["Altamira"] }
+  { name: "Luz", milestone: 2, conjunto: "N1" },
+  { name: "Raio de Luz", milestone: 1, conjunto: "N1" },
+  { name: "José de Freitas", milestone: 1, conjunto: "N1" },
+
+  { name: "Rouxinol do Paraíso", milestone: 2, conjunto: "N2" },
+  { name: "Jangada de Luz", milestone: 2, conjunto: "N2" },
+  { name: "Paço de Luz", milestone: 2, conjunto: "N2" },
+
+  { name: "Açai", milestone: 2, conjunto: "N3" },
+  { name: "Mazagão", milestone: 1, conjunto: "N3" },
+
+  { name: "Pérola", milestone: 2, conjunto: "N4" },
+  { name: "Luz da Terra", milestone: 2, conjunto: "N4" },
+
+  { name: "Altamira", milestone: 1, conjunto: "Isolado" }
 ]
 
-# Seed clusters for Norte region
+# Seed clusters
 clusters_data_norte.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
-  
-  data[:clusters].each do |cluster_name|
-    cluster = conjunto.clusters.find_or_create_by(name: cluster_name.strip)
-    puts "  Created cluster: #{cluster.name}"
-  end
+
+  cluster = conjunto.clusters.find_or_create_by(
+    name: data[:name].strip,
+    milestone: data[:milestone]
+  )
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
+
+
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+
 
 puts "Seeding Clusters Sudeste"
 clusters_data_sudeste = [
-  { conjunto: "RJ1", clusters: ["Luz da Serra", "Nova Iguaçu", "Rio de Janeiro", "Sol do Rio"] },
-  { conjunto: "ES1", clusters: ["Esperança", "Espírito de Luz", "Linhares"] },
-  { conjunto: "ES2", clusters: ["Anchieta", "Cachoeiro do Itapemirim", "Guarapari", "Vila Velha"] },
-  { conjunto: "MG1", clusters: ["Belo Horizonte", "Cambuquira", "Lagoa Santa", "Minas de Esplendor", "Nova Lima"] },
-  { conjunto: "MG2", clusters: ["Bom Despacho", "Caratinga", "Divinópolis", "Horizonte de Glória", "Sete Lagoas"] },
-  { conjunto: "MG3", clusters: ["Buritizeiro", "Rio de Luz"] },
-  { conjunto: "SP1", clusters: ["Fênix Dourada", "Lins", "Presidente Prudente", "Tupã"] },
-  { conjunto: "SP2", clusters: ["Andradina", "Centelha da Fé", "São José do Rio Preto"] },
-  { conjunto: "SP3", clusters: ["Jaboticabal", "Luz de Deus", "Sol Divino"] },
-  { conjunto: "SP4", clusters: ["Estrela do Vale", "Guaratinguetá", "Guarulhos", "Luzes", "Mauá", "Sampa", "Santana de Parnaíba", "Seguidores da Glória"] },
-  { conjunto: "SP5", clusters: ["Caminhos", "Indaiatuba", "Rouxinol", "Sorocaba"] },
-  { conjunto: "SP6", clusters: ["Andorinhas do Reino", "Cajamar", "Campinas", "Itatiba", "Jarinu", "Jundiaí"] },
-  { conjunto: "SP7", clusters: ["Alfenas", "Amparo", "Jacutinga", "Mogi Mirim", "Rio Claro", "Rio de Vida Eterna"] },
-  { conjunto: "SP8", clusters: ["Irrestritos Como o Vento", "Limeira", "Piracicaba"] }
+  { name: "Luz da Serra", milestone: 1, conjunto: "RJ1" },
+  { name: "Nova Iguaçu", milestone: 1, conjunto: "RJ1" },
+  { name: "Rio de Janeiro", milestone: 1, conjunto: "RJ1" },
+  { name: "Sol do Rio", milestone: 2, conjunto: "RJ1" },
+
+  { name: "Cachoeiro do Itapemirim", milestone: 1, conjunto: "ES2" },
+  { name: "Guarapari", milestone: 1, conjunto: "ES2" },
+
+  { name: "Cambuquira", milestone: 1, conjunto: "MG1" },
+  { name: "Caratinga", milestone: 1, conjunto: "MG2" },
+  { name: "Lagoa Santa", milestone: 1, conjunto: "MG1" },
+
+  { name: "Bom Despacho", milestone: 1, conjunto: "MG2" },
+  { name: "Divinópolis", milestone: 1, conjunto: "MG2" },
+
+  { name: "Sete Lagoas", milestone: 1, conjunto: "MG2" },
+  { name: "Buritizeiro", milestone: 1, conjunto: "MG3" },
+
+  { name: "Luz da Serra", milestone: 1, conjunto: "RJ1" },
+  { name: "Nova Iguaçu", milestone: 1, conjunto: "RJ1" },
+  { name: "Rio de Janeiro", milestone: 1, conjunto: "RJ1" },
+
+  { name: "Lins", milestone: 1, conjunto: "SP1" },
+  { name: "Presidente Prudente", milestone: 1, conjunto: "SP1" },
+  { name: "Tupã", milestone: 1, conjunto: "SP1" },
+
+  { name: "Andradina", milestone: 1, conjunto: "SP2" },
+  { name: "Centelha da Fé", milestone: 2, conjunto: "SP2" },
+  { name: "São José do Rio Preto", milestone: 1, conjunto: "SP2" },
+
+  { name: "Jaboticabal", milestone: 2, conjunto: "SP3" },
+  { name: "Luz de Deus", milestone: 1, conjunto: "SP3" },
+  { name: "Sol Divino", milestone: 2, conjunto: "SP3" },
+
+  { name: "Estrela do Vale", milestone: 2, conjunto: "SP4" },
+  { name: "Guaratinguetá", milestone: 1, conjunto: "SP4" },
+  { name: "Guarulhos", milestone: 1, conjunto: "SP4" },
+  { name: "Luzes", milestone: 1, conjunto: "SP4" },
+  { name: "Mauá", milestone: 2, conjunto: "SP4" },
+  { name: "Sampa", milestone: 2, conjunto: "SP4" },
+  { name: "Santana de Parnaíba", milestone: 1, conjunto: "SP4" },
+  { name: "Seguidores da Glória", milestone: 2, conjunto: "SP4" },
+
+  { name: "Caminhos", milestone: 1, conjunto: "SP5" },
+  { name: "Indaiatuba", milestone: 2, conjunto: "SP5" },
+  { name: "Rouxinol", milestone: 2, conjunto: "SP5" },
+  { name: "Sorocaba", milestone: 1, conjunto: "SP5" },
+
+  { name: "Andorinhas do Reino", milestone: 3, conjunto: "SP6" },
+  { name: "Cajamar", milestone: 1, conjunto: "SP6" },
+  { name: "Campinas", milestone: 2, conjunto: "SP6" },
+  { name: "Itatiba", milestone: 1, conjunto: "SP6" },
+  { name: "Jarinu", milestone: 1, conjunto: "SP6" },
+  { name: "Jundiaí", milestone: 2, conjunto: "SP6" },
+
+  { name: "Alfenas", milestone: 1, conjunto: "SP7" },
+  { name: "Amparo", milestone: 1, conjunto: "SP7" },
+  { name: "Jacutinga", milestone: 2, conjunto: "SP7" },
+  { name: "Mogi Mirim", milestone: 3, conjunto: "SP7" },
+  { name: "Rio Claro", milestone: 2, conjunto: "SP7" },
+  { name: "Rio de Vida Eterna", milestone: 1, conjunto: "SP7" },
+
+  { name: "Irrestritos Como o Vento", milestone: 2, conjunto: "SP8" },
+  { name: "Limeira", milestone: 1, conjunto: "SP8" },
+  { name: "Piracicaba", milestone: 2, conjunto: "SP8" }
 ]
 
-# Seed clusters for Sudeste region
+# Seed clusters
 clusters_data_sudeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
-  
-  data[:clusters].each do |cluster_name|
-    cluster = conjunto.clusters.find_or_create_by(name: cluster_name.strip)
-    puts "  Created cluster: #{cluster.name}"
-  end
+
+  cluster = conjunto.clusters.find_or_create_by(
+    name: data[:name].strip,
+    milestone: data[:milestone]
+  )
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
