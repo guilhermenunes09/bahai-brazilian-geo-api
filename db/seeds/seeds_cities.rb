@@ -8,8 +8,8 @@ south_region = Region.find_by(name: "Sul")
 
 states_data = [
   { name: "Distrito Federal", slug: 'distrito-federal', region: midwest_region },
+  { name: "Goiás", slug: 'goias', region: midwest_region },
 ]
-
 
 _states_data = [
   { name: "Acre", slug: 'acre', region: north_region },
@@ -55,7 +55,6 @@ states_data.each do |state_data|
 
   puts "geojson_data #{geojson_data.class}"
 
-  break
 
   # Find or create the state
   state = State.find_or_create_by(name: state_data[:name])
@@ -75,14 +74,10 @@ states_data.each do |state_data|
       puts "City #{existing_city.name} already exists with ID #{existing_city.id}"
     else
 
-      puts "feature geojson_data #{feature["geojson_data"].inspect}"
-      # Parse the geojson_data string into a hash
-
-
       # Create the city and associate it with the state
       city = City.create(
         name: properties["name"],
-        geojson_data: feature["geojson_data"],
+        geojson_data: feature,
         state: state
       )
 
