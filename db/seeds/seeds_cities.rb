@@ -7,8 +7,8 @@ southeast_region = Region.find_by(name: "Sudeste")
 south_region = Region.find_by(name: "Sul")
 
 states_data = [
-  { name: "Distrito Federal", slug: 'distrito-federal', region: midwest_region },
   { name: "Goiás", slug: 'goias', region: midwest_region },
+  { name: "Mato Grosso do Sul", slug: 'mato-grosso-do-sul', region: midwest_region }
 ]
 
 _states_data = [
@@ -46,15 +46,11 @@ states_data.each do |state_data|
   puts "------------------ Seeding #{state_data[:name].upcase} cities ------------------"
 
   # Read the GeoJSON data from the file
-  file_path = File.join(File.dirname(__FILE__), "./geojson_data/#{state_data[:slug]}.json")
-
+  file_path = File.join(File.dirname(__FILE__), "./geojson_data/cities/#{state_data[:slug]}.json")
   puts "file_path #{file_path}"
 
   geojson_data = JSON.parse(File.read(file_path))
-
-
   puts "geojson_data #{geojson_data.class}"
-
 
   # Find or create the state
   state = State.find_or_create_by(name: state_data[:name])

@@ -37,7 +37,19 @@ states_data = [
 ]
 
 states_data.each do |state_data|
+
+  file_path = File.join(File.dirname(__FILE__), "./geojson_data/states/#{state_data[:slug]}.json")
+  puts "check file path: #{file_path}"
+
+  geojson_data = JSON.parse(File.read(file_path))
+  puts "geojson_data #{geojson_data.class}"
+
+  feature = geojson_data
+
   State.find_or_create_by(name: state_data[:name]) do |state|
+    puts "------------------ Seeding #{state_data[:name].upcase} state ------------------"
+
+    state.geojson_data = feature
     state.region = state_data[:region]
   end
 end
