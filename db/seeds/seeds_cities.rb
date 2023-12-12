@@ -6,12 +6,12 @@ midwest_region = Region.find_by(name: "Centro-Oeste")
 southeast_region = Region.find_by(name: "Sudeste")
 south_region = Region.find_by(name: "Sul")
 
-states_data = [
+_states_data = [
   { name: "Goiás", slug: 'goias', region: midwest_region },
   { name: "Mato Grosso do Sul", slug: 'mato-grosso-do-sul', region: midwest_region }
 ]
 
-_states_data = [
+states_data = [
   { name: "Acre", slug: 'acre', region: north_region },
   { name: "Alagoas", slug: 'alagoas', region: northeast_region },
   { name: "Amapá", slug: 'amapa', region: north_region },
@@ -41,39 +41,30 @@ _states_data = [
   { name: "Tocantins", slug: 'tocantins', region: north_region }
 ]
 
-
 states_data.each do |state_data|
   puts "------------------ Seeding #{state_data[:name].upcase} cities ------------------"
 
-  # Read the GeoJSON data from the file
   file_path = File.join(File.dirname(__FILE__), "./geojson_data/cities/#{state_data[:slug]}.json")
-  puts "file_path #{file_path}"
-
   geojson_data = JSON.parse(File.read(file_path))
-  puts "geojson_data #{geojson_data.class}"
 
-  # Find or create the state
   state = State.find_or_create_by(name: state_data[:name])
 
   # Loop through each feature in the GeoJSON file
   geojson_data["features"].each do |feature|
-
-    puts "feature #{feature.class}"
-
     properties = feature["properties"]
     geometry = feature["geometry"]
 
-    # Check if the city already exists by name
     existing_city = City.find_by(name: properties["name"])
 
     if existing_city
       puts "City #{existing_city.name} already exists with ID #{existing_city.id}"
     else
-
-      # Create the city and associate it with the state
       city = City.create(
         name: properties["name"],
-        geojson_data: feature,
+        geojson_data: { 
+          type: "FeatureCollection",
+          features:[feature]
+        },
         state: state
       )
 

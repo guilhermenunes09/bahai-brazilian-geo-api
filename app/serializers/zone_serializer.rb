@@ -1,5 +1,5 @@
 class ZoneSerializer < ActiveModel::Serializer
-  attributes :id, :name, :region
+  attributes :id, :name, :region, :geojson_data
 
   def region
     {

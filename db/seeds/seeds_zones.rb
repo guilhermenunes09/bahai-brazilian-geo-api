@@ -69,6 +69,25 @@ zones_data = {
   ]
 }
 
+file_path = File.join(File.dirname(__FILE__), "./geojson_data/zones/center-west.json")
+geojson_data = JSON.parse(File.read(file_path))
+
+geometry = geojson_data["features"][0]["geometry"]
+
+zone = Zone.create(
+  name: "CEO 1",
+  region: Region.first,
+  geojson_data: { 
+    type: "FeatureCollection",
+    features:[{
+      type: "Feature",
+      geometry: geometry
+    }]
+  }
+)
+
+
+=begin
 # Seed zones for each region
 regions_data.each do |region_data|
   region = Region.find_by(name: region_data[:name])
@@ -78,3 +97,13 @@ regions_data.each do |region_data|
     puts "  Created zone: #{zone.name}"
   end
 end
+
+
+"geojson_data": {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+=end
+

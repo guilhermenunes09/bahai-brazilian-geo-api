@@ -6,6 +6,10 @@ midwest_region = Region.find_by(name: "Centro-Oeste")
 southeast_region = Region.find_by(name: "Sudeste")
 south_region = Region.find_by(name: "Sul")
 
+_states_data = [
+  { name: "Acre", slug: 'acre', region: north_region }
+]
+
 states_data = [
   { name: "Acre", slug: 'acre', region: north_region },
   { name: "Alagoas", slug: 'alagoas', region: northeast_region },

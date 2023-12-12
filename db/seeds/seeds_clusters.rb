@@ -296,7 +296,6 @@ clusters_data_sudeste = [
   { name: "Piracicaba", milestone: 2, conjunto: "SP8" }
 ]
 
-# Seed clusters
 clusters_data_sudeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
