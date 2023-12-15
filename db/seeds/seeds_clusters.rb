@@ -49,6 +49,8 @@ clusters_data = [
   { name: "Araucárias", milestone: 2, conjunto: "S07" }
 ]
 
+=begin
+
 # Seed clusters
 clusters_data.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
@@ -61,7 +63,7 @@ clusters_data.each do |data|
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
-
+=end
 
 #---------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------#
@@ -110,6 +112,7 @@ clusters_data_nordeste = [
   { name: "Kiriri", milestone: 1, conjunto: "Conjunto I" }
 ]
 
+=begin
 # Seed clusters
 clusters_data_nordeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
@@ -122,7 +125,7 @@ clusters_data_nordeste.each do |data|
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
-
+=end
 
 #---------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------#
@@ -170,17 +173,38 @@ clusters_data_centro_oeste = [
   { name: "Gurupi", milestone: 2, conjunto: "CO9" }
 ]
 
+require 'unicode_utils'
+
+def to_slug(name)
+  normalized_name = UnicodeUtils.nfkd(name).gsub(/[^\x00-\x7F]/, '').downcase
+  normalized_name.gsub(/[^a-z0-9]+/, '-').chomp('-')
+end
+
+clusters_data_centro_oeste.each do |cluster|
+  cluster[:slug] = to_slug(cluster[:name])
+end
+
 # Seed clusters
 clusters_data_centro_oeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
-  puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  file_path = File.join(File.dirname(__FILE__), "./geojson_data/clusters/#{data[:slug]}.json")
+  begin
+    read_file = File.read(file_path)
+    geojson_data = JSON.parse(read_file)
+    conjunto = Zone.find_or_create_by(name: data[:conjunto])
+    puts "Seeding clusters for #{conjunto.name}..."
 
-  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
+
+    cluster = conjunto.clusters.find_or_create_by(
+      name: data[:name].strip,
+      milestone: data[:milestone],
+      geojson_data: geojson_data
+    )
+
+    puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
+  rescue Errno::ENOENT => e
+    puts "error >>>>: #{e}"
+  end
 end
 
 
@@ -208,6 +232,7 @@ clusters_data_norte = [
   { name: "Altamira", milestone: 1, conjunto: "Isolado" }
 ]
 
+=begin
 # Seed clusters
 clusters_data_norte.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
@@ -220,7 +245,7 @@ clusters_data_norte.each do |data|
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
-
+=end
 
 #---------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------#
@@ -296,14 +321,20 @@ clusters_data_sudeste = [
   { name: "Piracicaba", milestone: 2, conjunto: "SP8" }
 ]
 
+=begin
 clusters_data_sudeste.each do |data|
   conjunto = Zone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
+  file_path = File.join(File.dirname(__FILE__), "./geojson_data/clusters/cacoal.json")
+  geojson_data = JSON.parse(File.read(file_path))
+
   cluster = conjunto.clusters.find_or_create_by(
     name: data[:name].strip,
-    milestone: data[:milestone]
+    milestone: data[:milestone],
+    geojson_data: geojson_data
   )
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
+=end

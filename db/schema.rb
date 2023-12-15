@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_12_072625) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_034527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_12_072625) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "milestone", default: 0
+    t.jsonb "geojson_data"
     t.index ["zone_id"], name: "index_clusters_on_zone_id"
   end
 

@@ -1,10 +1,14 @@
 # Seed data for regions
+_regions_data = [
+  { name: "Norte", slug: 'north' },
+  { name: "Nordeste", slug: 'northeast' },
+  { name: "Centro-Oeste", slug: 'central-west' },
+  { name: "Sudeste", slug: 'southeast' },
+  { name: "Sul", slug: 'south' }
+]
+
 regions_data = [
-  { name: "Norte" },
-  { name: "Nordeste" },
-  { name: "Centro-Oeste" },
-  { name: "Sudeste" },
-  { name: "Sul" }
+  { name: "Centro-Oeste", slug: 'central-west' }
 ]
 
 # Seed regions
@@ -69,22 +73,47 @@ zones_data = {
   ]
 }
 
-file_path = File.join(File.dirname(__FILE__), "./geojson_data/zones/center-west.json")
-geojson_data = JSON.parse(File.read(file_path))
 
-geometry = geojson_data["features"][0]["geometry"]
+regions_data.each do |region|
+  puts "------------------ Seeding #{region[:name].upcase} zones ------------------"
 
-zone = Zone.create(
-  name: "CEO 1",
-  region: Region.first,
-  geojson_data: { 
-    type: "FeatureCollection",
-    features:[{
-      type: "Feature",
-      geometry: geometry
-    }]
-  }
-)
+  file_path = File.join(File.dirname(__FILE__), "./geojson_data/zones/#{region[:slug]}.json")
+  geojson_data = JSON.parse(File.read(file_path))
+
+  geojson_data["features"].each do |feature|
+    
+    geometry = feature["geometry"]
+
+    existing_zone = Zone.find_by(name: feature["properties"]["nome"])
+
+    if existing_zone
+      puts "Zone #{existing_zone.name} already exists with ID #{existing_zone.id}"
+    else
+      zone = Zone.create(
+        name: "CEO 1",
+        region: Region.find_by_name(region[:name]),
+        geojson_data: { 
+          type: "FeatureCollection",
+          features:[{
+            type: "Feature",
+            geometry: geometry
+          }]
+        }
+      )
+
+      puts "Zone #{zone.name} created with ID #{zone.id}"
+    end
+  end
+
+  puts " "
+end
+
+
+
+
+
+
+
 
 
 =begin
