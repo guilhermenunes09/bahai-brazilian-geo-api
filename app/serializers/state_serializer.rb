@@ -1,3 +1,3 @@
 class StateSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :geojson_data
 end
