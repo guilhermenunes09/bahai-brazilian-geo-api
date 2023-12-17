@@ -64,6 +64,10 @@ geojson_data.delete("crs")
 max_files_to_save = 200
 files_saved = 0
 
+def file_exists?(file_path)
+  File.exist?(file_path)
+end
+
 geojson_data["features"].each do |feature|
   break if files_saved >= max_files_to_save
   puts "-------------------------"
@@ -85,12 +89,15 @@ geojson_data["features"].each do |feature|
     # Specify the directory or file path where you want to save the files
     file_path = "./db/seeds/geojson_data/clusters/#{slug}.json"
 
-    # Save the JSON to the specified file path
-    File.write(file_path, new_geojson_json)
+    if file_exists?(file_path)
+      puts "#{file_path} already exists. Skipping..."
+    else
+      # Save the JSON to the specified file path
+      File.write(file_path, new_geojson_json)
+      puts "Saved #{file_path}"
 
-    puts "Saved #{file_path}"
-
-    files_saved += 1
+      files_saved += 1
+    end
   end
 end
 
