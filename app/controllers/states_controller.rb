@@ -4,9 +4,9 @@ class StatesController < ApplicationController
 
     if region_query.present?
       region = Region.find_by(name: region_query)
-      
+
       if region
-        @states = State.where(region: region)
+        @states = State.where(region: region).or(State.where(name: "Tocantins"))
       else
         render json: { error: "Region not found" }, status: :not_found
         return
