@@ -187,24 +187,21 @@ end
 # Seed clusters
 clusters_data_centro_oeste.each do |data|
 
-  file_path = File.join(File.dirname(__FILE__), "./geojson_data/clusters/#{data[:slug]}.json")
   begin
+    file_path = File.join(File.dirname(__FILE__), "./geojson_data/clusters/#{data[:slug]}.json")
     read_file = File.read(file_path)
-    geojson_data = JSON.parse(read_file)
-    conjunto = Zone.find_or_create_by(name: data[:conjunto])
-    puts "Seeding clusters for #{conjunto.name}..."
-
-
-    cluster = conjunto.clusters.find_or_create_by(
-      name: data[:name].strip,
-      milestone: data[:milestone],
-      geojson_data: geojson_data
-    )
-
-    puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
-  rescue Errno::ENOENT => e
-    puts "error >>>>: #{e}"
+  rescue
+    next
   end
+
+  geojson_data = JSON.parse(read_file)
+  
+  cluster = Cluster.find_or_create_by(name: data[:name].strip) do |cluster|
+    cluster.milestone = data[:milestone]
+    cluster.geojson_data = geojson_data
+  end
+
+  puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
 
 

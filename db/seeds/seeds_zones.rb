@@ -8,7 +8,7 @@ _regions_data = [
 ]
 
 regions_data = [
-  { name: "Centro-Oeste", slug: 'central-west' }
+  { name: "Centro-Oeste", slug: 'central-west-bahai' }
 ]
 
 # Seed regions

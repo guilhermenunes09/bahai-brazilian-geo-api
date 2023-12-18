@@ -5,12 +5,17 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
+
+# config/application.rb
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "*"
+    origins 'http://localhost:3001' # Add the specific origin of your frontend
 
-    resource "*",
+    resource '*',
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: ['Access-Control-Allow-Origin'], # Expose the required header
+      max_age: 600 # Set a reasonable max age for CORS preflight requests
   end
 end
