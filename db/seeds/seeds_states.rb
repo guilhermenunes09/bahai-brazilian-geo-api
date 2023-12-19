@@ -37,7 +37,8 @@ states_data = [
   { name: "Santa Catarina", slug: 'santa-catarina', region: south_region },
   { name: "São Paulo", slug: 'sao-paulo', region: southeast_region },
   { name: "Sergipe", slug: 'sergipe', region: northeast_region },
-  { name: "Tocantins", slug: 'tocantins', region: north_region }
+  { name: "Tocantins", slug: 'tocantins', region: north_region },
+  { name: "Triângulo Mineiro", slug: 'triangulo-mineiro', region: midwest_region }
 ]
 
 states_data.each do |state_data|
