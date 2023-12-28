@@ -134,37 +134,38 @@ end
 
 puts "Seeding Clusters Centro-Oeste"
 clusters_data_centro_oeste = [
-  { name: "Esplendor da Glória", milestone: 2, conjunto: "CO1" },
+  { name: "Esplendor da Glória", milestone: 3, conjunto: "CO1" },
   { name: "Catalão", milestone: 2, conjunto: "CO1" },
   { name: "Uberaba", milestone: 1, conjunto: "CO1" },
 
-  { name: "Goyazes", milestone: 2, conjunto: "CO2" },
+  { name: "Goyazes", milestone: 3, conjunto: "CO2" },
   { name: "Pirenópolis", milestone: 1, conjunto: "CO2" },
   { name: "Núr", milestone: 2, conjunto: "CO2" },
   { name: "Cristalina", milestone: 1, conjunto: "CO2" },
   { name: "Senador Canedo", milestone: 1, conjunto: "CO2" },
 
-  { name: "Falcão Real", milestone: 3, conjunto: "CO3" },
+  { name: "Falcão Real", milestone: 4, conjunto: "CO3" },
   { name: "Valparaíso de Goiás", milestone: 1, conjunto: "CO3" },
   { name: "Formosa", milestone: 1, conjunto: "CO3" },
-  { name: "Santo Antônio do Descoberto", milestone: 3, conjunto: "CO3" },
+  { name: "Santo Antônio do Descoberto", milestone: 2, conjunto: "CO3" },
   { name: "Luziânia", milestone: 2, conjunto: "CO3" },
   { name: "Cidade Ocidental", milestone: 1, conjunto: "CO3" },
 
-  { name: "Sinop", milestone: 2, conjunto: "CO5" },
+  { name: "Sinop", milestone: 3, conjunto: "CO5" },
   { name: "Tuiuiú", milestone: 2, conjunto: "CO5" },
   { name: "Nova Mutum", milestone: 1, conjunto: "CO5" },
 
   { name: "Glória", milestone: 3, conjunto: "CO6" },
-  { name: "Arenápolis", milestone: 2, conjunto: "CO6" },
+  { name: "Arenápolis", milestone: 1, conjunto: "CO6" },
   { name: "Cáceres", milestone: 2, conjunto: "CO6" },
   { name: "Campo Novo dos Parecis", milestone: 1, conjunto: "CO6" },
 
+  { name: "Amambai", milestone: 0, conjunto: "CO7" },
   { name: "Canto do Rouxinol", milestone: 3, conjunto: "CO7" },
   { name: "Aquidauana", milestone: 1, conjunto: "CO7" },
-  { name: "São Gabriel do Oeste", milestone: 1, conjunto: "CO7" },
+  { name: "São Gabriel do Oeste", milestone: 2, conjunto: "CO7" },
 
-  { name: "Terra Dourada", milestone: 2, conjunto: "CO8" },
+  { name: "Terra Dourada", milestone: 3, conjunto: "CO8" },
   { name: "Jardim", milestone: 1, conjunto: "CO8" },
   { name: "Rio Brilhante", milestone: 2, conjunto: "CO8" },
 
