@@ -260,6 +260,44 @@ clusters_data_centro_oeste.each do |cluster|
   cluster[:slug] = to_slug(cluster[:name])
 end
 
+puts "__________________________________________________________________"
+folder_path = File.dirname(__FILE__) + "/geojson_data/clusters"
+
+Dir.glob(File.join(folder_path, "*.json")).each do |file_path|
+  file_name = File.basename(file_path, ".json")
+
+  match_data = file_name.match(/^(?<slug>[^@]+)@(?<uuid>[^\.]+)$/)
+
+  if match_data
+    slug = match_data[:slug]
+    uuid = match_data[:uuid]
+
+    clusters_data_centro_oeste.each do |cluster| 
+      if cluster[:slug] == slug
+        read_file = File.read(file_path)
+
+        geojson_data = JSON.parse(read_file)
+
+        new_cluster = Cluster.find_or_create_by(slug: cluster[:slug]) do |nc|
+          nc.uuid = uuid
+          nc.name = cluster[:name]
+          nc.milestone = cluster[:milestone]
+          nc.geojson_data = geojson_data
+          nc.slug = cluster[:slug]
+        end
+
+        unless new_cluster.new_record?
+          puts "Saved cluster: #{cluster[:slug]} (Milestone: #{cluster[:milestone]})"
+        end
+      end
+    end
+  else
+    puts "Invalid filename format: #{file_name}"
+  end
+end
+puts "__________________________________________________________________"
+
+=begin
 # Seed clusters
 clusters_data_centro_oeste.each do |data|
 
@@ -280,7 +318,7 @@ clusters_data_centro_oeste.each do |data|
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
-
+=end
 
 #---------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------#

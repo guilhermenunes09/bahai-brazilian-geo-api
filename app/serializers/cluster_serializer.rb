@@ -1,5 +1,5 @@
 class ClusterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :milestone, :zone, :geojson_data, :active
+  attributes :id, :uuid, :name, :milestone, :zone, :active, :geojson_data
 
   def zone
     {

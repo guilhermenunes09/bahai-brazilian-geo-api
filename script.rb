@@ -1,4 +1,3 @@
-puts "Olá mundo"
 require 'json'
 require 'unicode_utils'
 
@@ -6,7 +5,6 @@ def to_slug(name)
   normalized_name = UnicodeUtils.nfkd(name).gsub(/[^\x00-\x7F]/, '').downcase
   normalized_name.gsub(/[^a-z0-9]+/, '-').chomp('-')
 end
-
 
 clusters_data_centro_oeste = [
   { name: "Falcão Real", milestone: 0, conjunto: "DF1" },
@@ -110,7 +108,7 @@ clusters_data_centro_oeste = [
   { name: "Santo Antônio do Descoberto", milestone: 2, conjunto: "DF3" },
   { name: "São Gabriel do Oeste", milestone: 2, conjunto: "MS5" },
 
-  { name: "Glória", milestone: 3, conjunto: "MT1" },
+  { name: "Glória", milestone: 3, conjunto: "MT1", first: true },
   { name: "Canto do Rouxinol", milestone: 3, conjunto: "MS1" },
   { name: "Esplendor da Glória", milestone: 3, conjunto: "TM1" },
   { name: "Goyazes", milestone: 3, conjunto: "GO1" },
@@ -128,14 +126,9 @@ clusters_data_centro_oeste.each do |cluster|
   cluster[:slug] = to_slug(cluster[:name])
 end
 
-file_path = File.join(File.dirname(__FILE__), "./db/seeds/geojson_data/clusters/clusters.json")
-puts "1. file_path: #{file_path.inspect}"
+file_path = File.join(File.dirname(__FILE__), "./db/seeds/geojson_data/clusters/original_data/clusters_formatted.json")
 
 geojson_data = JSON.parse(File.read(file_path))
-puts "2. geojson_data: #{!geojson_data.nil?}"
-
-geojson_data.delete("name")
-geojson_data.delete("crs")
 
 max_files_to_save = 200
 files_saved = 0
@@ -144,12 +137,44 @@ def file_exists?(file_path)
   File.exist?(file_path)
 end
 
+clusters_data_centro_oeste.each do |cluster|
+
+  geojson_data.keys.each do |uuid|
+
+    if geojson_data[uuid][cluster[:slug]]
+      my_obj = geojson_data[uuid][cluster[:slug]]
+
+      new_geojson = {
+        "uuid" => uuid,
+        "type" => "FeatureCollection",
+        "features" => [my_obj]
+      }
+
+      new_geojson_json = JSON.pretty_generate(new_geojson)
+
+      file_path = "./db/seeds/geojson_data/clusters/#{cluster[:slug]}@#{uuid}.json"
+
+      if file_exists?(file_path)
+        #puts "#{file_path} already exists. Skipping..."
+      else
+        File.write(file_path, new_geojson_json)
+        puts "Saved #{cluster[:slug]}"
+    
+        files_saved += 1
+      end
+    end
+  end
+end
+
+
+=begin
+
 geojson_data["features"].each do |feature|
   break if files_saved >= max_files_to_save
   puts "-------------------------"
   name = feature["properties"]["nome"]
   slug = to_slug(name)
-  puts feature
+  puts slug
 
   # Create a new GeoJSON object with the current feature
   new_geojson = {
@@ -177,5 +202,4 @@ geojson_data["features"].each do |feature|
   end
 end
 
-
-
+=end
