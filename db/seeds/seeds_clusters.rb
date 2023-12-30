@@ -138,164 +138,175 @@ end
 
   puts "Seeding Clusters Centro-Oeste"
   clusters_data_centro_oeste = [
-  { name: "Falcão Real", milestone: 0, conjunto: "DF1" },
-  { name: "Planaltina de Goiás", milestone: 0, conjunto: "DF1" },
-  { name: "Padre Bernardo", milestone: 0, conjunto: "DF3" },
-  { name: "Trindade", milestone: 0, conjunto: "GO1" },
-  { name: "Vale do Rio dos Bois", milestone: 0, conjunto: "GO1" },
-  { name: "Anicuns", milestone: 0, conjunto: "GO2" },
-  { name: "Ceres", milestone: 0, conjunto: "GO2" },
-  { name: "Inhumas", milestone: 0, conjunto: "GO2" },
-  { name: "Itaberaí", milestone: 0, conjunto: "GO2" },
-  { name: "Jaraguá", milestone: 0, conjunto: "GO2" },
-  { name: "Caldas Novas", milestone: 0, conjunto: "GO3" },
-  { name: "Itumbiara", milestone: 0, conjunto: "GO3" },
-  { name: "Morrinhos", milestone: 0, conjunto: "GO3" },
-  { name: "Piracanjuba", milestone: 0, conjunto: "GO3" },
-  { name: "Chapada dos Veadeiros", milestone: 0, conjunto: "GO4" },
-  { name: "Goianésia", milestone: 0, conjunto: "GO4" },
-  { name: "Porangatu", milestone: 0, conjunto: "GO4" },
-  { name: "Uruaçu", milestone: 0, conjunto: "GO4" },
-  { name: "Vão do Paraná", milestone: 0, conjunto: "GO4" },
-  { name: "Araguarças", milestone: 0, conjunto: "GO5" },
-  { name: "Barra do Garças - MT", milestone: 0, conjunto: "GO5" },
-  { name: "Iporá", milestone: 0, conjunto: "GO5" },
-  { name: "Rio Vermelho", milestone: 0, conjunto: "GO5" },
-  { name: "São Miguel do Araguaia", milestone: 0, conjunto: "GO5" },
-  { name: "Jataí", milestone: 0, conjunto: "GO6" },
-  { name: "Mineiros", milestone: 0, conjunto: "GO6" },
-  { name: "Quirinópolis", milestone: 0, conjunto: "GO6" },
-  { name: "Rio Verde", milestone: 0, conjunto: "GO6" },
-  { name: "Ituiutaba", milestone: 0, conjunto: "TM1" },
-  { name: "Ipameri - GO", milestone: 0, conjunto: "TM1" },
-  { name: "Pires do Rio - GO", milestone: 0, conjunto: "TM1" },
-  { name: "Araxá", milestone: 0, conjunto: "TM2" },
-  { name: "Frutal", milestone: 0, conjunto: "TM2" },
-  { name: "Patos de Minas", milestone: 0, conjunto: "TM2" },
-  { name: "Patrocínio", milestone: 0, conjunto: "TM2" },
-  { name: "Araguacema", milestone: 0, conjunto: "TO1" },
-  { name: "Guaraí", milestone: 0, conjunto: "TO1" },
-  { name: "Miracema do Tocantins", milestone: 0, conjunto: "TO1" },
-  { name: "Paraíso do Tocantins", milestone: 0, conjunto: "TO1" },
-  { name: "Porto Nacional", milestone: 0, conjunto: "TO1" },
-  { name: "Formoso do Araguaia", milestone: 0, conjunto: "TO2" },
-  { name: "Peixe", milestone: 0, conjunto: "TO2" },
-  { name: "Arraias", milestone: 0, conjunto: "TO3" },
-  { name: "Chapada da Natividade", milestone: 0, conjunto: "TO3" },
-  { name: "Dianópolis", milestone: 0, conjunto: "TO3" },
-  { name: "Jalapão", milestone: 0, conjunto: "TO3" },
-  { name: "Araguaína", milestone: 0, conjunto: "TO4" },
-  { name: "Bico do Papaguaio", milestone: 0, conjunto: "TO4" },
-  { name: "Colinas do Tocantins", milestone: 0, conjunto: "TO4" },
-  { name: "Goiatins", milestone: 0, conjunto: "TO4" },
-  { name: "Tocantinópolis", milestone: 0, conjunto: "TO4" },
-  { name: "Ilha do Bananal - TO", milestone: 0, conjunto: "INDIGENAS" },
-  { name: "Parque Indígena do Xingu - MT", milestone: 0, conjunto: "INDIGENAS" },
-  { name: "Alto Guaporé", milestone: 0, conjunto: "MT1" },
-  { name: "Jaurú", milestone: 0, conjunto: "MT1" },
-  { name: "Rosário Oeste", milestone: 0, conjunto: "MT2" },
-  { name: "Tuiuiú", milestone: 0, conjunto: "MT2" },
-  { name: "Alto Araguaia", milestone: 0, conjunto: "MT4" },
-  { name: "Primavera do Leste", milestone: 0, conjunto: "MT4" },
-  { name: "Rondonópolis", milestone: 0, conjunto: "MT4" },
-  { name: "Tesouro", milestone: 0, conjunto: "MT4" },
-  { name: "Canarana", milestone: 0, conjunto: "MT5" },
-  { name: "Paranatinga", milestone: 0, conjunto: "MT5" },
-  { name: "São Félix do Araguaia", milestone: 0, conjunto: "MT5" },
-  { name: "Vila Rica", milestone: 0, conjunto: "MT5" },
-  { name: "Alta Floresta", milestone: 0, conjunto: "MT6" },
-  { name: "Arinos-Juara", milestone: 0, conjunto: "MT6" },
-  { name: "Aripuanã", milestone: 0, conjunto: "MT6" },
-  { name: "Juína", milestone: 0, conjunto: "MT6" },
-  { name: "Corguinho", milestone: 0, conjunto: "MS1" },
-  { name: "Paranaíba", milestone: 0, conjunto: "MS1" },
-  { name: "Três Lagoas", milestone: 0, conjunto: "MS1" },
-  { name: "Amambai", milestone: 0, conjunto: "MS2" },
-  { name: "Glória de Dourados", milestone: 0, conjunto: "MS2" },
-  { name: "Naviraí", milestone: 0, conjunto: "MS3" },
-  { name: "Nova Andradina", milestone: 0, conjunto: "MS3" },
-  { name: "Ponta Porã", milestone: 0, conjunto: "MS3" },
-  { name: "Sete Quedas", milestone: 0, conjunto: "MS3" },
+    { name: "Falcão Real", milestone: 0, conjunto: "DF1" },
+    { name: "Planaltina", alias: "Planaltina de Goiás", milestone: 0, conjunto: "DF1" },
+    { name: "Padre Bernardo", milestone: 0, conjunto: "DF3" },
+    { name: "Trindade", milestone: 0, conjunto: "GO1" },
+    { name: "Vale do Rio dos Bois", milestone: 0, conjunto: "GO1" },
+    { name: "Anicuns", milestone: 0, conjunto: "GO2" },
+    { name: "Ceres", milestone: 0, conjunto: "GO2" },
+    { name: "Inhumas", milestone: 0, conjunto: "GO2" },
+    { name: "Itaberaí", milestone: 0, conjunto: "GO2" },
+    { name: "Jaraguá", milestone: 0, conjunto: "GO2" },
+    { name: "Caldas Novas", milestone: 0, conjunto: "GO3" },
+    { name: "Itumbiara", milestone: 0, conjunto: "GO3" },
+    { name: "Morrinhos", milestone: 0, conjunto: "GO3" },
+    { name: "Piracanjuba", milestone: 0, conjunto: "GO3" },
+    { name: "Chapada dos Veadeiros", milestone: 0, conjunto: "GO4" },
+    { name: "Goianésia", milestone: 0, conjunto: "GO4" },
+    { name: "Porangatu", milestone: 0, conjunto: "GO4" },
+    { name: "Uruaçu", milestone: 0, conjunto: "GO4" },
+    { name: "Vão do Paraná", milestone: 0, conjunto: "GO4" },
+    { name: "Aragarças", milestone: 0, conjunto: "GO5" },
+    { name: "Barra do Garças", milestone: 0, conjunto: "GO5" },
+    { name: "Iporá", milestone: 0, conjunto: "GO5" },
+    { name: "Rio Vermelho", id_objeto: 55680, milestone: 0, conjunto: "GO5" },
+    { name: "São Miguel do Araguaia", milestone: 0, conjunto: "GO5" },
+    { name: "Jataí", milestone: 0, conjunto: "GO6" },
+    { name: "Mineiros", milestone: 0, conjunto: "GO6" },
+    { name: "Quirinópolis", milestone: 0, conjunto: "GO6" },
+    { name: "Rio Verde", milestone: 0, conjunto: "GO6" },
+    { name: "Ituiutaba", milestone: 0, conjunto: "TM1" },
+    { name: "Ipameri", milestone: 0, conjunto: "TM1" },
+    { name: "Pires do Rio", milestone: 0, conjunto: "TM1" },
+    { name: "Araxá", milestone: 0, conjunto: "TM2" },
+    { name: "Frutal", milestone: 0, conjunto: "TM2" },
+    { name: "Patos de Minas", milestone: 0, conjunto: "TM2" },
+    { name: "Patrocínio", milestone: 0, conjunto: "TM2" },
+    { name: "Araguacema", milestone: 0, conjunto: "TO1" },
+    { name: "Guaraí", milestone: 0, conjunto: "TO1" },
+    { name: "Miracema do Tocantins", milestone: 0, conjunto: "TO1" },
+    { name: "Paraíso do Tocantins", milestone: 0, conjunto: "TO1" },
+    { name: "Porto Nacional", milestone: 1, conjunto: "TO1" },
+    { name: "Formoso do Araguaia", milestone: 0, conjunto: "TO2" },
+    { name: "Peixe", milestone: 0, conjunto: "TO2" },
+    { name: "Arraias", milestone: 0, conjunto: "TO3" },
+    { name: "Chapada da Natividade", milestone: 0, conjunto: "TO3" },
+    { name: "Dianópolis", milestone: 0, conjunto: "TO3" },
+    { name: "Jalapão", milestone: 1, conjunto: "TO3" },
+    { name: "Araguaína", milestone: 1, conjunto: "TO4" },
+    { name: "Bico do Papagaio", alias: "Bico do Papaguaio", milestone: 0, conjunto: "TO4" },
+    { name: "Colinas do Tocantins", milestone: 0, conjunto: "TO4" },
+    { name: "Goiatins", milestone: 0, conjunto: "TO4" },
+    { name: "Tocantinópolis", milestone: 0, conjunto: "TO4" },
+    { name: "Ilha do Bananal", milestone: 0, conjunto: "INDIGENAS" },
+    { name: "Parque Indígena do Xingu", milestone: 0, conjunto: "INDIGENAS" },
+    { name: "Alto Guaporé", milestone: 0, conjunto: "MT1" },
+    { name: "Jauru", alias: "Jaurú", milestone: 0, conjunto: "MT1" },
+    { name: "Rosário Oeste", milestone: 0, conjunto: "MT2" },
+    { name: "Tuiuiú", milestone: 2, conjunto: "MT2" },
 
-  { name: "Aquidauana", milestone: 1, conjunto: "MS4" },
-  { name: "Arenápolis", milestone: 1, conjunto: "MT1" },
-  { name: "Campo Novo dos Parecis", milestone: 1, conjunto: "MT1" },
-  { name: "Cidade Ocidental", milestone: 1, conjunto: "DF1" },
-  { name: "Cristalina", milestone: 1, conjunto: "DF2" },
-  { name: "Formosa", milestone: 1, conjunto: "DF1" },
-  { name: "Nova Mutum", milestone: 1, conjunto: "DF1" },
-  { name: "Pirenópolis", milestone: 1, conjunto: "DF3" },
-  { name: "Senador Canedo", milestone: 1, conjunto: "GO1" },
-  { name: "Uberaba", milestone: 1, conjunto: "TM2" },
-  { name: "Valparaíso de Goiás", milestone: 1, conjunto: "DF2" },
+    { name: "Colíder", milestone: 0, conjunto: "MT3" },
+    { name: "Nova Mutum", milestone: 1, conjunto: "MT3" },
+    { name: "Sinop", milestone: 3, conjunto: "MT3" },
+    { name: "Sorriso", milestone: 1, conjunto: "MT3" },
 
-  { name: "Cáceres", milestone: 2, conjunto: "MT2" },
-  { name: "Catalão", milestone: 2, conjunto: "TM1" },
-  { name: "Girassois", milestone: 2, conjunto: "TO1" },
-  { name: "Gurupi", milestone: 2, conjunto: "TO2" },
-  { name: "Luziânia", milestone: 2, conjunto: "DF2" },
-  { name: "Núr", milestone: 2, conjunto: "GO2" },
-  { name: "Rio Brilhante", milestone: 2, conjunto: "MS2" },
-  { name: "Santo Antônio do Descoberto", milestone: 2, conjunto: "DF3" },
-  { name: "São Gabriel do Oeste", milestone: 2, conjunto: "MS5" },
+    { name: "Alto Araguaia", milestone: 0, conjunto: "MT4" },
+    { name: "Primavera do Leste", milestone: 0, conjunto: "MT4" },
+    { name: "Rondonópolis", milestone: 0, conjunto: "MT4" },
+    { name: "Tesouro", milestone: 0, conjunto: "MT4" },
+    { name: "Canarana", milestone: 0, conjunto: "MT5" },
+    { name: "Paranatinga", milestone: 0, conjunto: "MT5" },
+    { name: "São Félix do Araguaia", milestone: 0, conjunto: "MT5" },
+    { name: "Vila Rica", milestone: 0, conjunto: "MT5" },
+    { name: "Alta Floresta", milestone: 0, conjunto: "MT6" },
+    { name: "Arinos-Juara", milestone: 0, conjunto: "MT6" },
+    { name: "Aripuanã", milestone: 0, conjunto: "MT6" },
+    { name: "Juína", milestone: 0, conjunto: "MT6" },
+    { name: "Corguinho", milestone: 0, conjunto: "MS1" },
+    { name: "Paranaíba", milestone: 0, conjunto: "MS1" },
+    { name: "Três Lagoas", milestone: 0, conjunto: "MS1" },
+    { name: "Amambai", milestone: 0, conjunto: "MS2" },
+    { name: "Glória de Dourados", milestone: 0, conjunto: "MS2" },
+    { name: "Naviraí", milestone: 0, conjunto: "MS3" },
+    { name: "Nova Andradina", milestone: 0, conjunto: "MS3" },
+    { name: "Ponta Porã", milestone: 0, conjunto: "MS3" },
+    { name: "Sete Quedas", milestone: 0, conjunto: "MS3" },
 
-  { name: "Glória", milestone: 3, conjunto: "MT1" },
-  { name: "Canto do Rouxinol", milestone: 3, conjunto: "MS1" },
-  { name: "Esplendor da Glória", milestone: 3, conjunto: "TM1" },
-  { name: "Goyazes", milestone: 3, conjunto: "GO1" },
-  { name: "Terra Dourada", milestone: 3, conjunto: "MS2" },
-  { name: "Sinop", milestone: 3, conjunto: "MT3" },
+    { name: "Aquidauana", milestone: 1, conjunto: "MS4" },
+    { name: "Arenápolis", milestone: 1, conjunto: "MT1" },
+    { name: "Campo Novo do Parecis", milestone: 1, conjunto: "MT1" },
+    { name: "Cidade Ocidental", milestone: 1, conjunto: "DF1" },
+    { name: "Cristalina", milestone: 1, conjunto: "DF2" },
+    { name: "Formosa", milestone: 1, conjunto: "DF1" },
+    { name: "Pirenópolis", milestone: 1, conjunto: "DF3" },
+    { name: "Senador Canedo", milestone: 1, conjunto: "GO1" },
+    { name: "Uberaba", milestone: 1, conjunto: "TM2" },
+    { name: "Valparaíso", alias: "Valparaíso de Goiás" , milestone: 1, conjunto: "DF2" },
 
-  { name: "Bonito", milestone: 0, conjunto: "MS4" },
-  { name: "Corumbá", milestone: 0, conjunto: "MS4" },
-  { name: "Jardim", milestone: 0, conjunto: "MS4" },
-  { name: "Cassilândia", milestone: 0, conjunto: "MS5" },
-  { name: "Coxim", milestone: 0, conjunto: "MS5" }
-]
+    { name: "Cáceres", milestone: 2, conjunto: "MT2" },
+    { name: "Catalão", milestone: 2, conjunto: "TM1" },
+    { name: "Girassois", milestone: 2, conjunto: "TO1" },
+    { name: "Gurupi", milestone: 2, conjunto: "TO2" },
+    { name: "Luziânia", milestone: 2, conjunto: "DF2" },
+    { name: "Núr", milestone: 2, conjunto: "GO2" },
+    { name: "Rio Brilhante", milestone: 2, conjunto: "MS2" },
+    { name: "Santo Antônio do Descoberto", milestone: 2, conjunto: "DF3" },
+    { name: "São Gabriel do Oeste", milestone: 2, conjunto: "MS5" },
 
-require 'unicode_utils'
+    { name: "Glória", milestone: 3, conjunto: "MT1" },
+    { name: "Canto do Rouxinol", milestone: 3, conjunto: "MS1" },
+    { name: "Esplendor da Glória", milestone: 3, conjunto: "TM1" },
+    { name: "Goyazes", milestone: 3, conjunto: "GO1" },
+    { name: "Terra Dourada", milestone: 3, conjunto: "MS2" },
+
+    { name: "Bonito", milestone: 0, conjunto: "MS4" },
+    { name: "Corumbá", milestone: 0, conjunto: "MS4" },
+    { name: "Jardim", milestone: 0, conjunto: "MS4" },
+    { name: "Cassilândia", milestone: 0, conjunto: "MS5" },
+    { name: "Coxim", milestone: 0, conjunto: "MS5" }
+  ]
+
+  require 'unicode_utils'
 
 
-clusters_data_centro_oeste.each do |cluster|
-  cluster[:slug] = to_slug(cluster[:name])
-end
+  clusters_data_centro_oeste.each do |cluster|
+    cluster[:slug] = to_slug(cluster[:name])
+  end
 
-puts "__________________________________________________________________"
-folder_path = File.dirname(__FILE__) + "/geojson_data/clusters"
+  puts "__________________________________________________________________"
+  folder_path = File.dirname(__FILE__) + "/geojson_data/clusters"
 
-Dir.glob(File.join(folder_path, "*.json")).each do |file_path|
-  file_name = File.basename(file_path, ".json")
+  Dir.glob(File.join(folder_path, "*.json")).each do |file_path|
+    file_name = File.basename(file_path, ".json")
 
-  match_data = file_name.match(/^(?<slug>[^@]+)@(?<uuid>[^\.]+)$/)
+    match_data = file_name.match(/^(?<slug>[^@]+)@(?<uuid>[^\.]+)$/)
 
-  if match_data
-    slug = match_data[:slug]
-    uuid = match_data[:uuid]
+    if match_data
+      slug = match_data[:slug]
+      uuid = match_data[:uuid]
 
-    clusters_data_centro_oeste.each do |cluster| 
-      if cluster[:slug] == slug
+      clusters_data_centro_oeste.each do |cluster| 
         read_file = File.read(file_path)
 
         geojson_data = JSON.parse(read_file)
 
-        new_cluster = Cluster.find_or_create_by(slug: cluster[:slug]) do |nc|
-          nc.uuid = uuid
-          nc.name = cluster[:name]
-          nc.milestone = cluster[:milestone]
-          nc.geojson_data = geojson_data
-          nc.slug = cluster[:slug]
-        end
+        if cluster[:slug] == slug && cluster[:name] == geojson_data["features"][0]["properties"]["nome"]
+          
+          if cluster[:id_objeto]
+            if cluster[:id_objeto] != geojson_data["features"][0]["properties"]["id_objeto"]
+              next
+            end
+          end
 
-        unless new_cluster.new_record?
-          puts "Saved cluster: #{cluster[:slug]} (Milestone: #{cluster[:milestone]})"
+          new_cluster = Cluster.find_or_create_by(slug: cluster[:slug]) do |nc|
+            nc.uuid = uuid
+            nc.name = cluster[:alias] || cluster[:name]
+            nc.milestone = cluster[:milestone]
+            nc.geojson_data = geojson_data
+            nc.slug = cluster[:slug]
+          end
+
+          unless new_cluster.new_record?
+            puts "Saved cluster: #{cluster[:slug]} (Milestone: #{cluster[:milestone]})"
+          end
         end
       end
+    else
+      puts "Invalid filename format: #{file_name}"
     end
-  else
-    puts "Invalid filename format: #{file_name}"
   end
-end
-puts "__________________________________________________________________"
+  puts "__________________________________________________________________"
 
 =begin
 # Seed clusters
