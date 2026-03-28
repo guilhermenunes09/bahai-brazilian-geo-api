@@ -46,6 +46,11 @@ states_data.each do |state_data|
   file_path = File.join(File.dirname(__FILE__), "./geojson_data/states/#{state_data[:slug]}.json")
   puts "check file path: #{file_path}"
 
+  unless File.exist?(file_path)
+    puts "Skipping #{state_data[:name]}: missing file #{file_path}"
+    next
+  end
+
   geojson_data = JSON.parse(File.read(file_path))
   puts "geojson_data #{geojson_data.class}"
 

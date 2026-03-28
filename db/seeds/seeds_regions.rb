@@ -5,7 +5,7 @@ regions_data = [
   { name: "Norte", slug: 'north' },
   { name: "Nordeste", slug: 'northeast' },
   #{ name: "Centro-Oeste", slug: 'central-west' },
-  { name: "Centro-Oeste", slug: 'central-west-bahai' },
+  { name: "Centro-Oeste", slug: 'central-west' },
   { name: "Sudeste", slug: 'southeast' },
   { name: "Sul", slug: 'south' }
 ]

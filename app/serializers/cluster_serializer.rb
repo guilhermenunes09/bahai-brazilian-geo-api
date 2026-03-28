@@ -4,7 +4,15 @@ class ClusterSerializer < ActiveModel::Serializer
   def zone
     {
       id: object.zone&.id,
-      name: object.zone&.name
+      name: object.zone&.name,
+      region: {
+        id: object.zone&.region&.id,
+        name: object.zone&.region&.name
+      }
     }
+  end
+
+  def geojson_data
+    object.geojson_data || object.zone&.geojson_data
   end
 end

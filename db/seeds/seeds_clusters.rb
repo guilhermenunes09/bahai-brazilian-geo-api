@@ -1,3 +1,4 @@
+require 'securerandom'
 
 puts "Seeding Clusters South"
 clusters_data = [
@@ -270,42 +271,64 @@ end
   Dir.glob(File.join(folder_path, "*.json")).each do |file_path|
     file_name = File.basename(file_path, ".json")
 
-    match_data = file_name.match(/^(?<slug>[^@]+)@(?<uuid>[^\.]+)$/)
-
-    if match_data
-      slug = match_data[:slug]
-      uuid = match_data[:uuid]
-
-      clusters_data_centro_oeste.each do |cluster| 
-        read_file = File.read(file_path)
-
-        geojson_data = JSON.parse(read_file)
-
-        if cluster[:slug] == slug && cluster[:name] == geojson_data["features"][0]["properties"]["nome"]
-          
-          if cluster[:id_objeto]
-            if cluster[:id_objeto] != geojson_data["features"][0]["properties"]["id_objeto"]
-              next
-            end
-          end
-
-          new_cluster = Cluster.find_or_create_by(slug: cluster[:slug]) do |nc|
-            nc.uuid = uuid
-            nc.name = cluster[:alias] || cluster[:name]
-            nc.milestone = cluster[:milestone]
-            nc.geojson_data = geojson_data
-            nc.slug = cluster[:slug]
-          end
-
-          unless new_cluster.new_record?
-            puts "Saved cluster: #{cluster[:slug]} (Milestone: #{cluster[:milestone]})"
-          end
-        end
-      end
+    slug, uuid = if file_name.include?("@")
+      parts = file_name.split("@", 2)
+      [parts[0], parts[1]]
     else
-      puts "Invalid filename format: #{file_name}"
+      [file_name, nil]
+    end
+
+    read_file = File.read(file_path)
+    geojson_data = JSON.parse(read_file)
+    feature_properties = geojson_data.dig("features", 0, "properties") || {}
+    feature_objeto_id = feature_properties["id_objeto"]
+
+    matching_clusters = clusters_data_centro_oeste.select { |cluster| cluster[:slug] == slug }
+    if matching_clusters.empty?
+      puts "No cluster seed match for file: #{file_name}"
+      next
+    end
+
+    matching_clusters.each do |cluster|
+      if cluster[:id_objeto] && feature_objeto_id && cluster[:id_objeto] != feature_objeto_id
+        next
+      end
+
+      seeded_cluster = Cluster.find_or_initialize_by(slug: cluster[:slug])
+      seeded_cluster.uuid ||= uuid || SecureRandom.uuid
+      seeded_cluster.name = cluster[:alias] || cluster[:name]
+      seeded_cluster.milestone = cluster[:milestone]
+      seeded_cluster.geojson_data = geojson_data
+      seeded_cluster.active = true if seeded_cluster.active.nil?
+      seeded_cluster.save!
+
+      puts "Saved cluster geometry: #{cluster[:slug]} (Milestone: #{cluster[:milestone]})"
     end
   end
+
+  puts "Seeding fallback clusters for Centro-Oeste..."
+  centro_oeste_region = Region.find_by(name: "Centro-Oeste")
+
+  if centro_oeste_region.nil?
+    puts "Skipping fallback clusters: Centro-Oeste region not found"
+  else
+    clusters_data_centro_oeste.each do |cluster|
+      zone = Zone.find_or_create_by(name: cluster[:conjunto], region: centro_oeste_region)
+      cluster_name = cluster[:alias] || cluster[:name]
+
+      seeded_cluster = Cluster.find_or_initialize_by(slug: cluster[:slug])
+      seeded_cluster.name = cluster_name
+      seeded_cluster.slug = cluster[:slug]
+      seeded_cluster.uuid ||= SecureRandom.uuid
+      seeded_cluster.milestone = cluster[:milestone]
+      seeded_cluster.zone = zone
+      seeded_cluster.active = true if seeded_cluster.active.nil?
+      seeded_cluster.save!
+    end
+
+    puts "Fallback Centro-Oeste clusters seeded"
+  end
+
   puts "__________________________________________________________________"
 
 =begin

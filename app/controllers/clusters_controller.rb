@@ -2,7 +2,12 @@ class ClustersController < ApplicationController
   before_action :set_cluster, only: [:update]
   
   def index
-    @clusters = Cluster.all
+    @clusters = Cluster.includes(zone: :region)
+
+    if params[:region].present?
+      @clusters = @clusters.joins(zone: :region).where(regions: { name: params[:region] })
+    end
+
     render json: @clusters, each_serializer: ClusterSerializer
   end
 
