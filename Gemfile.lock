@@ -71,6 +71,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    base64 (0.3.0)
+    bigdecimal (3.3.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -103,8 +105,10 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.20.0)
     msgpack (1.7.2)
+    mutex_m (0.3.0)
     net-imap (0.4.7)
       date
       net-protocol
@@ -115,7 +119,8 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.15.5)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     pg (1.5.4)
     psych (5.1.1.1)
@@ -176,8 +181,11 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  base64 (~> 0.3)
+  bigdecimal (~> 3.1)
   bootsnap
   debug
+  mutex_m (~> 0.3)
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
@@ -185,7 +193,7 @@ DEPENDENCIES
   tzinfo-data
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.4.9p82
 
 BUNDLED WITH
    2.4.22

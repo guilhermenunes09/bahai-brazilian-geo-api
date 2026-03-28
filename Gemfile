@@ -2,10 +2,13 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.2"
+ruby "3.4.9"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
+gem "base64", "~> 0.3"
+gem "bigdecimal", "~> 3.1"
+gem "mutex_m", "~> 0.3"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"

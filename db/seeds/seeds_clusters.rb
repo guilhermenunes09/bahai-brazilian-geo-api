@@ -1,5 +1,6 @@
 
 puts "Seeding Clusters South"
+
 clusters_data = [
   { name: "Alvorecer da Unidade", milestone: 1, conjunto: "S01" },
   { name: "Tramandaí", milestone: 1, conjunto: "S01" },
@@ -51,7 +52,7 @@ clusters_data = [
 
 # Seed clusters
 clusters_data.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -112,7 +113,7 @@ clusters_data_nordeste = [
 
 # Seed clusters
 clusters_data_nordeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -172,7 +173,7 @@ clusters_data_centro_oeste = [
 
 # Seed clusters
 clusters_data_centro_oeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -210,7 +211,7 @@ clusters_data_norte = [
 
 # Seed clusters
 clusters_data_norte.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -297,7 +298,7 @@ clusters_data_sudeste = [
 ]
 
 clusters_data_sudeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(

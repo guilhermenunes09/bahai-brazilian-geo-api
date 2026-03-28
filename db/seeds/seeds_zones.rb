@@ -1,109 +1,24 @@
-# Seed data for regions
-regions_data = [
-  { name: "Norte" },
-  { name: "Nordeste" },
-  { name: "Centro-Oeste" },
-  { name: "Sudeste" },
-  { name: "Sul" }
-]
+puts "Seeding zones..."
 
-# Seed regions
-regions_data.each do |region|
-  Region.find_or_create_by(name: region[:name])
-end
-
-# Seed data for zones in each region
 zones_data = {
-  "Centro-Oeste" => [
-    { name: "CO1" },
-    { name: "CO2" },
-    { name: "CO3" },
-    { name: "CO5" },
-    { name: "CO6" },
-    { name: "CO7" },
-    { name: "CO8" },
-    { name: "CO9" }
-  ],
-  "Sudeste" => [
-    { name: "RJ1" },
-    { name: "ES1" },
-    { name: "ES2" },
-    { name: "MG1" },
-    { name: "MG2" },
-    { name: "MG3" },
-    { name: "SP1" },
-    { name: "SP2" },
-    { name: "SP3" },
-    { name: "SP4" },
-    { name: "SP5" },
-    { name: "SP6" },
-    { name: "SP7" },
-    { name: "SP8" }
-  ],
-  "Norte" => [
-    { name: "N1" },
-    { name: "N2" },
-    { name: "N3" },
-    { name: "N4" },
-    { name: "Isolado" }
-  ],
-  "Nordeste" => [
-    { name: "Conjunto A" },
-    { name: "Conjunto B" },
-    { name: "Conjunto C" },
-    { name: "Conjunto D" },
-    { name: "Conjunto E" },
-    { name: "Conjunto F" },
-    { name: "Conjunto G" },
-    { name: "Conjunto H" },
-    { name: "Conjunto I" }
-  ],
-  "Sul" => [
-    { name: "S01" },
-    { name: "S02" },
-    { name: "S03" },
-    { name: "S04" },
-    { name: "S05" },
-    { name: "S06" },
-    { name: "S07" }
-  ]
+  "Centro-Oeste" => ["CO1", "CO2", "CO3", "CO5", "CO6", "CO7", "CO8", "CO9"],
+  "Sudeste" => ["RJ1", "ES1", "ES2", "MG1", "MG2", "MG3", "SP1", "SP2", "SP3", "SP4", "SP5", "SP6", "SP7", "SP8"],
+  "Norte" => ["N1", "N2", "N3", "N4", "Isolado"],
+  "Nordeste" => ["Conjunto A", "Conjunto B", "Conjunto C", "Conjunto D", "Conjunto E", "Conjunto F", "Conjunto G", "Conjunto H", "Conjunto I"],
+  "Sul" => ["S01", "S02", "S03", "S04", "S05", "S06", "S07"]
 }
 
-file_path = File.join(File.dirname(__FILE__), "./geojson_data/zones/center-west.json")
-geojson_data = JSON.parse(File.read(file_path))
+zones_data.each do |region_name, zone_names|
+  region = Region.find_by(name: region_name)
 
-geometry = geojson_data["features"][0]["geometry"]
+  unless region
+    raise "Region '#{region_name}' not found. Run seeds_regions before seeds_zones."
+  end
 
-zone = Zone.create(
-  name: "CEO 1",
-  region: Region.first,
-  geojson_data: { 
-    type: "FeatureCollection",
-    features:[{
-      type: "Feature",
-      geometry: geometry
-    }]
-  }
-)
+  puts "Seeding zones for #{region_name}..."
 
-
-=begin
-# Seed zones for each region
-regions_data.each do |region_data|
-  region = Region.find_by(name: region_data[:name])
-  puts "Seeding zones for #{region_data[:name]}..."
-  zones_data[region_data[:name]].each do |zone_data|
-    zone = region.zones.find_or_create_by(name: zone_data[:name])
+  zone_names.each do |zone_name|
+    zone = region.zones.find_or_create_by!(name: zone_name)
     puts "  Created zone: #{zone.name}"
   end
 end
-
-
-"geojson_data": {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-=end
-
