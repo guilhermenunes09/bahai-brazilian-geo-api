@@ -12,9 +12,11 @@ countries_data.each do |country_data|
   geojson_data = JSON.parse(File.read(file_path))
   puts "geojson_data #{geojson_data.class}"
 
-  Country.find_or_create_by(name: country_data[:name]) do |country|
-    puts "------------------ Seeding #{country_data[:name].upcase} country ------------------"
+  country = Country.find_or_initialize_by(name: country_data[:name])
+  country.geojson_data = geojson_data
+  was_new = country.new_record?
+  country.save!
 
-    country.geojson_data = geojson_data
-  end
+  action = was_new ? "Created" : "Updated"
+  puts "------------------ #{action} #{country_data[:name].upcase} country ------------------"
 end

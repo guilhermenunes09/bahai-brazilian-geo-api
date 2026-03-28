@@ -47,29 +47,23 @@ states_data.each do |state_data|
   file_path = File.join(File.dirname(__FILE__), "./geojson_data/cities/#{state_data[:slug]}.json")
   geojson_data = JSON.parse(File.read(file_path))
 
-  state = State.find_or_create_by(name: state_data[:name])
+  state = State.find_by!(name: state_data[:name])
 
   # Loop through each feature in the GeoJSON file
   geojson_data["features"].each do |feature|
     properties = feature["properties"]
     geometry = feature["geometry"]
 
-    existing_city = City.find_by(name: properties["name"])
+    city = state.cities.find_or_initialize_by(name: properties["name"])
+    was_new = city.new_record?
+    city.geojson_data = {
+      type: "FeatureCollection",
+      features: [feature]
+    }
+    city.save!
 
-    if existing_city
-      puts "City #{existing_city.name} already exists with ID #{existing_city.id}"
-    else
-      city = City.create(
-        name: properties["name"],
-        geojson_data: { 
-          type: "FeatureCollection",
-          features:[feature]
-        },
-        state: state
-      )
-
-      puts "City #{city.name} created with ID #{city.id}"
-    end
+    action = was_new ? "created" : "updated"
+    puts "City #{city.name} #{action} with ID #{city.id}"
   end
 
   puts " "

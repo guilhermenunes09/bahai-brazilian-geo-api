@@ -55,10 +55,9 @@ clusters_data.each do |data|
   conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  cluster = conjunto.clusters.find_or_initialize_by(name: data[:name].strip)
+  cluster.milestone = data[:milestone]
+  cluster.save!
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
@@ -116,10 +115,9 @@ clusters_data_nordeste.each do |data|
   conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  cluster = conjunto.clusters.find_or_initialize_by(name: data[:name].strip)
+  cluster.milestone = data[:milestone]
+  cluster.save!
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
@@ -176,10 +174,9 @@ clusters_data_centro_oeste.each do |data|
   conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  cluster = conjunto.clusters.find_or_initialize_by(name: data[:name].strip)
+  cluster.milestone = data[:milestone]
+  cluster.save!
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
@@ -214,10 +211,9 @@ clusters_data_norte.each do |data|
   conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  cluster = conjunto.clusters.find_or_initialize_by(name: data[:name].strip)
+  cluster.milestone = data[:milestone]
+  cluster.save!
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end
@@ -301,10 +297,9 @@ clusters_data_sudeste.each do |data|
   conjunto = Zone.find_by!(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
-  cluster = conjunto.clusters.find_or_create_by(
-    name: data[:name].strip,
-    milestone: data[:milestone]
-  )
+  cluster = conjunto.clusters.find_or_initialize_by(name: data[:name].strip)
+  cluster.milestone = data[:milestone]
+  cluster.save!
 
   puts "  Created cluster: #{cluster.name} (Milestone: #{cluster.milestone})"
 end

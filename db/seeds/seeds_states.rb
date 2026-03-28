@@ -50,10 +50,12 @@ states_data.each do |state_data|
 
   feature = geojson_data
 
-  State.find_or_create_by(name: state_data[:name]) do |state|
-    puts "------------------ Seeding #{state_data[:name].upcase} state ------------------"
+  state = State.find_or_initialize_by(name: state_data[:name])
+  state.geojson_data = feature
+  state.region = state_data[:region]
+  was_new = state.new_record?
+  state.save!
 
-    state.geojson_data = feature
-    state.region = state_data[:region]
-  end
+  action = was_new ? "Created" : "Updated"
+  puts "------------------ #{action} #{state_data[:name].upcase} state ------------------"
 end

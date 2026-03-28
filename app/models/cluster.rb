@@ -1,6 +1,5 @@
 class Cluster < ApplicationRecord
   belongs_to :zone
-  has_many :cities, dependent: :destroy
 
   enum milestone: {
     incipient: 0,
