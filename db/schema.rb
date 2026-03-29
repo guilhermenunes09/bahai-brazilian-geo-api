@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_29_115840) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_29_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_29_115840) do
     t.jsonb "geojson_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "scope_mode", default: "region", null: false
+    t.string "scope_region_name"
+    t.string "scope_country_name"
+    t.string "status", default: "active", null: false
+    t.jsonb "config", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scope_mode"], name: "index_projects_on_scope_mode"
+    t.index ["scope_region_name"], name: "index_projects_on_scope_region_name"
+    t.index ["slug"], name: "index_projects_on_slug", unique: true
   end
 
   create_table "regions", force: :cascade do |t|
