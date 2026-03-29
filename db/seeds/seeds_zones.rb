@@ -79,19 +79,25 @@ regions_data.each do |region|
 
   file_path = File.join(File.dirname(__FILE__), "./geojson_data/zones/#{region[:slug]}.json")
   geojson_data = JSON.parse(File.read(file_path))
+  region_record = Region.find_by!(name: region[:name])
 
   geojson_data["features"].each do |feature|
-    
+    zone_name = feature.dig("properties", "nome") || feature.dig("properties", "name")
+    if zone_name.blank?
+      puts "Skipping zone without a name in #{region[:name]}"
+      next
+    end
+
     geometry = feature["geometry"]
 
-    existing_zone = Zone.find_by(name: feature["properties"]["nome"])
+    existing_zone = Zone.find_by(name: zone_name, region: region_record)
 
     if existing_zone
       puts "Zone #{existing_zone.name} already exists with ID #{existing_zone.id}"
     else
-      zone = Zone.create(
-        name: "CEO 1",
-        region: Region.find_by_name(region[:name]),
+      zone = Zone.create!(
+        name: zone_name,
+        region: region_record,
         geojson_data: { 
           type: "FeatureCollection",
           features:[{
