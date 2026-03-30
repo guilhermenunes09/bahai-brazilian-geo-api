@@ -31,16 +31,12 @@ module Projects
 
     def layers_data
       {
-        clusters: layer_active?('clusters') ? serialize_clusters : [],
-        zones: layer_active?('zones') ? serialize_zones : [],
-        states: layer_active?('states') ? serialize_states : [],
-        regions: layer_active?('regions') ? serialize_regions : [],
-        countries: layer_active?('countries') ? serialize_countries : []
+        clusters: serialize_clusters,
+        zones: serialize_zones,
+        states: serialize_states,
+        regions: serialize_regions,
+        countries: serialize_countries
       }
-    end
-
-    def layer_active?(layer_slug)
-      project.merged_config.dig('layers', layer_slug, 'visible') == true
     end
 
     def serialize_clusters
