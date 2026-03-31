@@ -8,7 +8,8 @@ module Projects
       {
         project: project_payload,
         config: project.merged_config,
-        layersData: layers_data
+        layersData: layers_data,
+        legends: serialize_legends
       }
     end
 
@@ -93,6 +94,13 @@ module Projects
       end
 
       ActiveModelSerializers::SerializableResource.new(records, each_serializer: CountrySerializer).as_json
+    end
+
+    def serialize_legends
+      ActiveModelSerializers::SerializableResource.new(
+        project.project_legends.order(:sort_order),
+        each_serializer: ProjectLegendSerializer
+      ).as_json
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_31_000001) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_31_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,17 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_31_000001) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_legends", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.string "name", null: false
+    t.string "color", default: "#ffffff", null: false
+    t.integer "sort_order", default: 0, null: false
+    t.jsonb "rules", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_legends_on_project_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -99,5 +110,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_31_000001) do
   add_foreign_key "bahai_zones", "regions"
   add_foreign_key "cities", "bahai_clusters"
   add_foreign_key "cities", "states"
+  add_foreign_key "project_legends", "projects"
   add_foreign_key "states", "regions"
 end

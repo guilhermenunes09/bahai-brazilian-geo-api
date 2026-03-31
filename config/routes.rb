@@ -12,5 +12,8 @@ Rails.application.routes.draw do
       get :map_bundle
       patch :config, action: :update_config
     end
+    resources :project_legends, only: [:index, :create]
   end
+
+  resources :project_legends, only: [:update, :destroy]
 end
