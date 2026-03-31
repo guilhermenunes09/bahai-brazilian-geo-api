@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_30_000002) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_31_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,15 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_30_000002) do
     t.string "uuid", null: false
     t.index ["bahai_zone_id"], name: "index_bahai_clusters_on_bahai_zone_id"
     t.index ["uuid"], name: "index_bahai_clusters_on_uuid", unique: true
+  end
+
+  create_table "bahai_regions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug"
+    t.jsonb "geojson_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_bahai_regions_on_slug", unique: true
   end
 
   create_table "bahai_zones", force: :cascade do |t|

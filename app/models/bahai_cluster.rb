@@ -3,6 +3,7 @@ class BahaiCluster < ApplicationRecord
   has_many :cities, dependent: :destroy
 
   enum milestone: {
+    virgem: -1,
     incipient: 0,
     one: 1,
     two: 2,

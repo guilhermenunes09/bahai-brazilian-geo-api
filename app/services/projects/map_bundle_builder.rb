@@ -34,7 +34,7 @@ module Projects
         bahai_clusters: serialize_bahai_clusters,
         bahai_zones: serialize_bahai_zones,
         states: serialize_states,
-        bahai_regions: [],
+        bahai_regions: serialize_bahai_regions,
         regions: serialize_regions,
         countries: serialize_countries
       }
@@ -68,6 +68,11 @@ module Projects
       end
 
       ActiveModelSerializers::SerializableResource.new(records, each_serializer: StateSerializer).as_json
+    end
+
+    def serialize_bahai_regions
+      records = BahaiRegion.all
+      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiRegionSerializer).as_json
     end
 
     def serialize_regions

@@ -1,0 +1,2 @@
+class BahaiRegion < ApplicationRecord
+end

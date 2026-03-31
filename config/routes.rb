@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :bahai_clusters, only: [:index, :update]
   resources :bahai_zones, only: [:index]
   resources :states, only: [:index]
+  resources :bahai_regions, only: [:index]
   resources :regions, only: [:index]
   resources :countries, only: [:index]
 
