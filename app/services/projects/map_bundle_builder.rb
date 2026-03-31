@@ -34,6 +34,7 @@ module Projects
         bahai_clusters: serialize_bahai_clusters,
         bahai_zones: serialize_bahai_zones,
         states: serialize_states,
+        bahai_regions: [],
         regions: serialize_regions,
         countries: serialize_countries
       }
