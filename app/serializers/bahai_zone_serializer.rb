@@ -1,4 +1,4 @@
-class ZoneSerializer < ActiveModel::Serializer
+class BahaiZoneSerializer < ActiveModel::Serializer
   attributes :id, :name, :region, :geojson_data
 
   def region

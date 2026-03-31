@@ -54,7 +54,7 @@ clusters_data = [
 
 # Seed clusters
 clusters_data.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = BahaiZone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -116,7 +116,7 @@ clusters_data_nordeste = [
 =begin
 # Seed clusters
 clusters_data_nordeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = BahaiZone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -314,7 +314,7 @@ end
         next
       end
 
-      seeded_cluster = Cluster.find_or_initialize_by(slug: cluster[:slug])
+      seeded_cluster = BahaiCluster.find_or_initialize_by(slug: cluster[:slug])
       seeded_cluster.uuid ||= uuid || SecureRandom.uuid
       seeded_cluster.name = cluster[:alias] || cluster[:name]
       seeded_cluster.milestone = cluster[:milestone]
@@ -333,15 +333,15 @@ end
     puts "Skipping fallback clusters: Centro-Oeste region not found"
   else
     clusters_data_centro_oeste.each do |cluster|
-      zone = Zone.find_or_create_by(name: cluster[:conjunto], region: centro_oeste_region)
+      zone = BahaiZone.find_or_create_by(name: cluster[:conjunto], region: centro_oeste_region)
       cluster_name = cluster[:alias] || cluster[:name]
 
-      seeded_cluster = Cluster.find_or_initialize_by(slug: cluster[:slug])
+      seeded_cluster = BahaiCluster.find_or_initialize_by(slug: cluster[:slug])
       seeded_cluster.name = cluster_name
       seeded_cluster.slug = cluster[:slug]
       seeded_cluster.uuid ||= SecureRandom.uuid
       seeded_cluster.milestone = cluster[:milestone]
-      seeded_cluster.zone = zone
+      seeded_cluster.bahai_zone = zone
       seeded_cluster.active = cluster.fetch(:active, true)
       seeded_cluster.save!
     end
@@ -364,7 +364,7 @@ clusters_data_centro_oeste.each do |data|
 
   geojson_data = JSON.parse(read_file)
   
-  cluster = Cluster.find_or_create_by(name: data[:name].strip) do |cluster|
+  cluster = BahaiCluster.find_or_create_by(name: data[:name].strip) do |cluster|
     cluster.milestone = data[:milestone]
     cluster.geojson_data = geojson_data
     cluster.slug = data[:slug]
@@ -401,7 +401,7 @@ clusters_data_norte = [
 =begin
 # Seed clusters
 clusters_data_norte.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = BahaiZone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   cluster = conjunto.clusters.find_or_create_by(
@@ -489,7 +489,7 @@ clusters_data_sudeste = [
 
 =begin
 clusters_data_sudeste.each do |data|
-  conjunto = Zone.find_or_create_by(name: data[:conjunto])
+  conjunto = BahaiZone.find_or_create_by(name: data[:conjunto])
   puts "Seeding clusters for #{conjunto.name}..."
 
   file_path = File.join(File.dirname(__FILE__), "./geojson_data/clusters/cacoal.json")

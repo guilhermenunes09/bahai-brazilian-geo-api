@@ -52,7 +52,7 @@ end
 
 clusters_to_deactivate.each do |cluster| 
   begin
-    Cluster.find_by_slug(cluster).update(active: false)
+    BahaiCluster.find_by_slug(cluster).update(active: false)
   rescue => e
     puts "Error updating cluster #{cluster}: #{e.message}"
   end

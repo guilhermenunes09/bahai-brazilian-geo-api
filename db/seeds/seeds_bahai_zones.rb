@@ -11,7 +11,7 @@ regions_data = [
   { name: "Centro-Oeste", slug: 'center-west' }
 ]
 
-# Seed regions
+# Seed bahai_regions
 regions_data.each do |region|
   Region.find_or_create_by(name: region[:name])
 end
@@ -90,12 +90,12 @@ regions_data.each do |region|
 
     geometry = feature["geometry"]
 
-    existing_zone = Zone.find_by(name: zone_name, region: region_record)
+    existing_zone = BahaiZone.find_by(name: zone_name, region: region_record)
 
     if existing_zone
-      puts "Zone #{existing_zone.name} already exists with ID #{existing_zone.id}"
+      puts "BahaiZone #{existing_zone.name} already exists with ID #{existing_zone.id}"
     else
-      zone = Zone.create!(
+      zone = BahaiZone.create!(
         name: zone_name,
         region: region_record,
         geojson_data: { 
@@ -107,7 +107,7 @@ regions_data.each do |region|
         }
       )
 
-      puts "Zone #{zone.name} created with ID #{zone.id}"
+      puts "BahaiZone #{zone.name} created with ID #{zone.id}"
     end
   end
 

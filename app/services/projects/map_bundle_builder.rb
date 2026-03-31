@@ -31,32 +31,32 @@ module Projects
 
     def layers_data
       {
-        clusters: serialize_clusters,
-        zones: serialize_zones,
+        bahai_clusters: serialize_bahai_clusters,
+        bahai_zones: serialize_bahai_zones,
         states: serialize_states,
         regions: serialize_regions,
         countries: serialize_countries
       }
     end
 
-    def serialize_clusters
-      records = Cluster.includes(zone: :region)
+    def serialize_bahai_clusters
+      records = BahaiCluster.includes(bahai_zone: :region)
 
       if project.scope_mode == 'region' && project.scope_region_name.present?
-        records = records.joins(zone: :region).where(regions: { name: project.scope_region_name })
+        records = records.joins(bahai_zone: :region).where(regions: { name: project.scope_region_name })
       end
 
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: ClusterSerializer).as_json
+      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiClusterSerializer).as_json
     end
 
-    def serialize_zones
-      records = Zone.includes(:region)
+    def serialize_bahai_zones
+      records = BahaiZone.includes(:region)
 
       if project.scope_mode == 'region' && project.scope_region_name.present?
         records = records.joins(:region).where(regions: { name: project.scope_region_name })
       end
 
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: ZoneSerializer).as_json
+      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiZoneSerializer).as_json
     end
 
     def serialize_states

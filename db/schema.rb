@@ -10,24 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_29_120000) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_30_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cities", force: :cascade do |t|
+  create_table "bahai_clusters", force: :cascade do |t|
     t.string "name"
-    t.jsonb "geojson_data"
-    t.bigint "state_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cluster_id"
-    t.index ["cluster_id"], name: "index_cities_on_cluster_id"
-    t.index ["state_id"], name: "index_cities_on_state_id"
-  end
-
-  create_table "clusters", force: :cascade do |t|
-    t.string "name"
-    t.bigint "zone_id"
+    t.bigint "bahai_zone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "milestone", default: 0
@@ -35,8 +24,28 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_29_120000) do
     t.boolean "active", default: true
     t.string "slug"
     t.string "uuid", null: false
-    t.index ["uuid"], name: "index_clusters_on_uuid", unique: true
-    t.index ["zone_id"], name: "index_clusters_on_zone_id"
+    t.index ["bahai_zone_id"], name: "index_bahai_clusters_on_bahai_zone_id"
+    t.index ["uuid"], name: "index_bahai_clusters_on_uuid", unique: true
+  end
+
+  create_table "bahai_zones", force: :cascade do |t|
+    t.string "name"
+    t.bigint "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "geojson_data"
+    t.index ["region_id"], name: "index_bahai_zones_on_region_id"
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "geojson_data"
+    t.bigint "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "bahai_cluster_id"
+    t.index ["bahai_cluster_id"], name: "index_cities_on_bahai_cluster_id"
+    t.index ["state_id"], name: "index_cities_on_state_id"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -77,18 +86,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_29_120000) do
     t.index ["region_id"], name: "index_states_on_region_id"
   end
 
-  create_table "zones", force: :cascade do |t|
-    t.string "name"
-    t.bigint "region_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "geojson_data"
-    t.index ["region_id"], name: "index_zones_on_region_id"
-  end
-
-  add_foreign_key "cities", "clusters"
+  add_foreign_key "bahai_clusters", "bahai_zones"
+  add_foreign_key "bahai_zones", "regions"
+  add_foreign_key "cities", "bahai_clusters"
   add_foreign_key "cities", "states"
-  add_foreign_key "clusters", "zones"
   add_foreign_key "states", "regions"
-  add_foreign_key "zones", "regions"
 end
