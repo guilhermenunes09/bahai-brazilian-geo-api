@@ -52,7 +52,10 @@ module Projects
     end
 
     def serialize_bahai_zones
-      records = BahaiZone.includes(:region)
+      # Only include zones that are actual conjuntos (have linked clusters).
+      # The bahai_zones table also contains orphaned municipality-level records
+      # (from old geojson imports) that are not linked to any cluster.
+      records = BahaiZone.includes(:region).joins(:bahai_clusters).distinct
 
       if project.scope_mode == 'region' && project.scope_region_name.present?
         records = records.joins(:region).where(regions: { name: project.scope_region_name })

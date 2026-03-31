@@ -13,6 +13,6 @@ class BahaiClusterSerializer < ActiveModel::Serializer
   end
 
   def geojson_data
-    object.geojson_data || object.bahai_zone&.geojson_data
+    object.geojson_data
   end
 end
