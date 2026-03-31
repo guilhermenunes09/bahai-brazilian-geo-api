@@ -41,7 +41,6 @@ clusters_to_deactivate = [
   "sete-quedas",
   "bonito",
   "corumba",
-  "jardim",
   "cassilandia",
   "coxim"
 ]

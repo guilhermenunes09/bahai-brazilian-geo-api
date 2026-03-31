@@ -141,7 +141,7 @@ end
   clusters_data_centro_oeste = [
     { name: "Pirenópolis", milestone: 1, conjunto: "DF1", active: true },
     { name: "Falcão Real", milestone: 4, conjunto: "DF1", active: true },
-    { name: "Cidade Ocidental", milestone: 1, conjunto: "DF1", active: false },
+    { name: "Cidade Ocidental", milestone: 1, conjunto: "DF1", active: true },
     { name: "Formosa", milestone: 1, conjunto: "DF1", active: true },
     { name: "Padre Bernardo", milestone: 0, conjunto: "DF1", active: true },
     { name: "Planaltina", alias: "Planaltina de Goiás", milestone: 0, conjunto: "DF1", active: true },
@@ -271,7 +271,7 @@ end
     { name: "Aquidauana", milestone: 1, conjunto: "MS4", active: true },
     { name: "Bonito", milestone: 0, conjunto: "MS4", active: false },
     { name: "Corumbá", milestone: 0, conjunto: "MS4", active: false },
-    { name: "Jardim", milestone: 0, conjunto: "MS4", active: false },
+    { name: "Jardim", milestone: 0, conjunto: "MS4", active: true },
 
     { name: "Cassilândia", milestone: 0, conjunto: "MS5", active: false },
     { name: "Coxim", milestone: 0, conjunto: "MS5", active: false },
