@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     member do
       get :map_bundle
       patch :config, action: :update_config
+      post :duplicate
     end
     resources :project_legends, only: [:index, :create]
   end

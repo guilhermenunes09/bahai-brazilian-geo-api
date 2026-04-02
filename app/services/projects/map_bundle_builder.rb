@@ -65,13 +65,7 @@ module Projects
     end
 
     def serialize_states
-      records = State.all
-
-      if project.scope_mode == 'region' && project.scope_region_name.present?
-        records = records.joins(:region).where(regions: { name: project.scope_region_name }).or(State.where(name: 'Tocantins'))
-      end
-
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: StateSerializer).as_json
+      ActiveModelSerializers::SerializableResource.new(State.all, each_serializer: StateSerializer).as_json
     end
 
     def serialize_bahai_regions

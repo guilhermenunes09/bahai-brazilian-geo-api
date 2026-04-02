@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :update, :update_config, :map_bundle]
+  before_action :set_project, only: [:show, :update, :update_config, :map_bundle, :duplicate]
 
   def index
     projects = Project.order(updated_at: :desc)
@@ -45,10 +45,45 @@ class ProjectsController < ApplicationController
     render json: ::Projects::MapBundleBuilder.new(@project).call
   end
 
+  def duplicate
+    copy = @project.dup
+    copy.name = "#{@project.name} (cópia)"
+    copy.slug = unique_slug(copy.name)
+    copy.config = @project.config.deep_dup
+    copy.created_at = nil
+    copy.updated_at = nil
+
+    if copy.save
+      @project.project_legends.each do |legend|
+        copy.project_legends.create!(
+          name: legend.name,
+          color: legend.color,
+          sort_order: legend.sort_order,
+          rules: legend.rules.deep_dup
+        )
+      end
+
+      render json: project_payload(copy), status: :created
+    else
+      render json: { errors: copy.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_project
     @project = Project.find(params[:id])
+  end
+
+  def unique_slug(name)
+    base = name.parameterize
+    slug = base
+    counter = 2
+    while Project.exists?(slug: slug)
+      slug = "#{base}-#{counter}"
+      counter += 1
+    end
+    slug
   end
 
   def project_create_params
