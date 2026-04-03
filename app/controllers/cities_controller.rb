@@ -1,6 +1,40 @@
 class CitiesController < ApplicationController
+  include Paginatable
+  before_action :set_city, only: [:show]
+
+  SORTABLE_COLUMNS = %w[id name state region].freeze
+  COLUMN_MAP = {
+    'id'     => { expr: 'cities.id',     text: false },
+    'name'   => { expr: 'cities.name',   text: true  },
+    'state'  => { expr: 'states.name',   text: true  },
+    'region' => { expr: 'regions.name',  text: true  },
+  }.freeze
+  SEARCH_MAP = {
+    'name'   => { expr: 'cities.name',  text: true },
+    'state'  => { expr: 'states.name',  text: true },
+    'region' => { expr: 'regions.name', text: true },
+  }.freeze
+
   def index
-    @cities = City.all
-    render json: @cities, each_serializer: CitySerializer
+    scope = City.eager_load(state: :region)
+    if params[:paginate] == 'true'
+      apply_pagination_and_sort(scope,
+        allowed_columns: SORTABLE_COLUMNS,
+        column_map:      COLUMN_MAP,
+        search_map:      SEARCH_MAP,
+        serializer:      CityListSerializer)
+    else
+      render json: scope.order(:name), each_serializer: CitySerializer
+    end
+  end
+
+  def show
+    render json: @city, serializer: CitySerializer
+  end
+
+  private
+
+  def set_city
+    @city = City.find(params[:id])
   end
 end

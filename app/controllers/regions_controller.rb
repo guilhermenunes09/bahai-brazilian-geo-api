@@ -1,14 +1,38 @@
 class RegionsController < ApplicationController
+  include Paginatable
+  before_action :set_region, only: [:show]
+
+  SORTABLE_COLUMNS = %w[id name].freeze
+  COLUMN_MAP = {
+    'id'   => { expr: 'regions.id',   text: false },
+    'name' => { expr: 'regions.name', text: true  },
+  }.freeze
+  SEARCH_MAP = {
+    'name' => { expr: 'regions.name', text: true },
+  }.freeze
+
   def index
-    region_query = params[:region]
+    scope = Region.all
+    scope = scope.where(name: params[:region]) if params[:region].present?
 
-    if region_query.present?
-      @regions = Region.where(name: region_query)
-      
+    if params[:paginate] == 'true'
+      apply_pagination_and_sort(scope,
+        allowed_columns: SORTABLE_COLUMNS,
+        column_map:      COLUMN_MAP,
+        search_map:      SEARCH_MAP,
+        serializer:      RegionListSerializer)
     else
-      @regions = Region.all
+      render json: scope.order(:name), each_serializer: RegionSerializer
     end
+  end
 
-    render json: @regions, each_serializer: RegionSerializer
+  def show
+    render json: @region, serializer: RegionSerializer
+  end
+
+  private
+
+  def set_region
+    @region = Region.find(params[:id])
   end
 end
