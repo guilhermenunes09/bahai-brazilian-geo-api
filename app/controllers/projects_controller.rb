@@ -29,9 +29,7 @@ class ProjectsController < ApplicationController
   end
 
   def update_config
-    merged = @project.config.deep_merge(config_params.to_h)
-
-    if @project.update(config: merged)
+    if @project.update(config: config_params.to_h)
       render json: {
         project: project_payload(@project),
         config: @project.merged_config
