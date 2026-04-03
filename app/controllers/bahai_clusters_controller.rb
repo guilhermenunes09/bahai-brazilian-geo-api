@@ -44,13 +44,13 @@ class BahaiClustersController < ApplicationController
 
   def update
     @bahai_cluster.update(bahai_cluster_params)
-    render json: @bahai_cluster, each_serializer: BahaiClusterSerializer
+    render json: @bahai_cluster, serializer: BahaiClusterSerializer
   end
 
   private
 
   def bahai_cluster_params
-    params.require(:bahai_cluster).permit(:id, :name, :milestone)
+    params.require(:bahai_cluster).permit(:id, :name, :milestone, :active)
   end
 
   def set_bahai_cluster

@@ -1,6 +1,6 @@
 class CountriesController < ApplicationController
   include Paginatable
-  before_action :set_country, only: [:show]
+  before_action :set_country, only: [:show, :update]
 
   SORTABLE_COLUMNS = %w[id name].freeze
   COLUMN_MAP = {
@@ -29,7 +29,16 @@ class CountriesController < ApplicationController
     render json: @country, serializer: CountrySerializer
   end
 
+  def update
+    @country.update(country_params)
+    render json: @country, serializer: CountrySerializer
+  end
+
   private
+
+  def country_params
+    params.require(:country).permit(:name)
+  end
 
   def set_country
     @country = Country.find(params[:id])

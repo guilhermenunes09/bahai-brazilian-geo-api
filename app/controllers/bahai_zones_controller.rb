@@ -31,4 +31,16 @@ class BahaiZonesController < ApplicationController
     zone = BahaiZone.find(params[:id])
     render json: zone, serializer: BahaiZoneSerializer
   end
+
+  def update
+    zone = BahaiZone.find(params[:id])
+    zone.update(bahai_zone_params)
+    render json: zone, serializer: BahaiZoneSerializer
+  end
+
+  private
+
+  def bahai_zone_params
+    params.require(:bahai_zone).permit(:name)
+  end
 end

@@ -1,6 +1,6 @@
 class CitiesController < ApplicationController
   include Paginatable
-  before_action :set_city, only: [:show]
+  before_action :set_city, only: [:show, :update]
 
   SORTABLE_COLUMNS = %w[id name state region].freeze
   COLUMN_MAP = {
@@ -32,7 +32,16 @@ class CitiesController < ApplicationController
     render json: @city, serializer: CitySerializer
   end
 
+  def update
+    @city.update(city_params)
+    render json: @city, serializer: CitySerializer
+  end
+
   private
+
+  def city_params
+    params.require(:city).permit(:name)
+  end
 
   def set_city
     @city = City.find(params[:id])

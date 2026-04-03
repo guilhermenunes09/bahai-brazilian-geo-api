@@ -1,6 +1,6 @@
 class RegionsController < ApplicationController
   include Paginatable
-  before_action :set_region, only: [:show]
+  before_action :set_region, only: [:show, :update]
 
   SORTABLE_COLUMNS = %w[id name].freeze
   COLUMN_MAP = {
@@ -30,7 +30,16 @@ class RegionsController < ApplicationController
     render json: @region, serializer: RegionSerializer
   end
 
+  def update
+    @region.update(region_params)
+    render json: @region, serializer: RegionSerializer
+  end
+
   private
+
+  def region_params
+    params.require(:region).permit(:name)
+  end
 
   def set_region
     @region = Region.find(params[:id])
