@@ -1,6 +1,7 @@
 class BahaiZonesController < ApplicationController
   def index
     scope = BahaiZone.includes(:region, :bahai_clusters).order(:name)
+    scope = scope.joins(:bahai_clusters).distinct if params[:with_clusters] == 'true'
 
     if params[:paginate] == 'true'
       per_page = [[( params[:per_page] || 20).to_i, 1].max, 100].min
