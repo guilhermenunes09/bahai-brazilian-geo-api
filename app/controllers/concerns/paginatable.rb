@@ -4,21 +4,26 @@ module Paginatable
   private
 
   def apply_pagination_and_sort(scope, allowed_columns:, serializer:, column_map: {})
-    # Sorting — column_map allows sorting by joined-table columns, e.g. { 'zone' => 'bahai_zones.name' }
+    # column_map values: { expr: 'table.col', text: true/false }
     sort_by_param = params[:sort_by].to_s
     if column_map.key?(sort_by_param)
-      # Prefer the explicit table-qualified expression from column_map
-      sort_expr = column_map[sort_by_param]
+      entry     = column_map[sort_by_param]
+      sort_expr = entry[:expr]
+      is_text   = entry[:text]
       sort_by   = sort_by_param
     elsif allowed_columns.include?(sort_by_param)
       sort_expr = sort_by_param
+      is_text   = false
       sort_by   = sort_by_param
     else
       sort_by   = allowed_columns.first
-      sort_expr = column_map[sort_by] || sort_by
+      entry     = column_map[sort_by]
+      sort_expr = entry ? entry[:expr] : sort_by
+      is_text   = entry ? entry[:text] : false
     end
-    sort_dir = params[:sort_dir] == 'desc' ? 'desc' : 'asc'
-    scope    = scope.reorder(Arel.sql("unaccent(#{sort_expr}::text) #{sort_dir}"))
+    sort_dir    = params[:sort_dir] == 'desc' ? 'desc' : 'asc'
+    order_expr  = is_text ? "unaccent(#{sort_expr}::text) #{sort_dir}" : "#{sort_expr} #{sort_dir}"
+    scope       = scope.reorder(Arel.sql(order_expr))
 
     # Pagination
     per_page    = [[( params[:per_page] || 20).to_i, 1].max, 100].min

@@ -2,7 +2,7 @@ class BahaiZonesController < ApplicationController
   include Paginatable
 
   SORTABLE_COLUMNS = %w[name].freeze
-  COLUMN_MAP = { 'name' => 'bahai_zones.name' }.freeze
+  COLUMN_MAP = { 'name' => { expr: 'bahai_zones.name', text: true } }.freeze
 
   def index
     scope = BahaiZone.includes(:region, :bahai_clusters).order(:name)

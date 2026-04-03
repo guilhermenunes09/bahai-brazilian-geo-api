@@ -4,11 +4,11 @@ class BahaiClustersController < ApplicationController
 
   SORTABLE_COLUMNS = %w[name milestone active zone region].freeze
   COLUMN_MAP = {
-    'name'      => 'bahai_clusters.name',
-    'milestone' => 'bahai_clusters.milestone',
-    'active'    => 'bahai_clusters.active',
-    'zone'      => 'bahai_zones.name',
-    'region'    => 'regions.name',
+    'name'      => { expr: 'bahai_clusters.name',      text: true  },
+    'milestone' => { expr: 'bahai_clusters.milestone', text: false },
+    'active'    => { expr: 'bahai_clusters.active',    text: false },
+    'zone'      => { expr: 'bahai_zones.name',         text: true  },
+    'region'    => { expr: 'regions.name',             text: true  },
   }.freeze
 
   def index
