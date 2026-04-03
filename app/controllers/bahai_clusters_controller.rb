@@ -2,8 +2,9 @@ class BahaiClustersController < ApplicationController
   include Paginatable
   before_action :set_bahai_cluster, only: [:update]
 
-  SORTABLE_COLUMNS = %w[name milestone active zone region].freeze
+  SORTABLE_COLUMNS = %w[id name milestone active zone region].freeze
   COLUMN_MAP = {
+    'id'        => { expr: 'bahai_clusters.id',        text: false },
     'name'      => { expr: 'bahai_clusters.name',      text: true  },
     'milestone' => { expr: 'bahai_clusters.milestone', text: false },
     'active'    => { expr: 'bahai_clusters.active',    text: false },
