@@ -26,4 +26,9 @@ class BahaiZonesController < ApplicationController
       render json: scope, each_serializer: BahaiZoneSerializer
     end
   end
+
+  def show
+    zone = BahaiZone.find(params[:id])
+    render json: zone, serializer: BahaiZoneSerializer
+  end
 end

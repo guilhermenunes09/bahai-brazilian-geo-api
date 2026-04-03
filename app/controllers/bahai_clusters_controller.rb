@@ -1,6 +1,6 @@
 class BahaiClustersController < ApplicationController
   include Paginatable
-  before_action :set_bahai_cluster, only: [:update]
+  before_action :set_bahai_cluster, only: [:show, :update]
 
   SORTABLE_COLUMNS = %w[id name milestone active zone region].freeze
   COLUMN_MAP = {
@@ -36,6 +36,10 @@ class BahaiClustersController < ApplicationController
     else
       render json: scope.order(:name), each_serializer: BahaiClusterSerializer
     end
+  end
+
+  def show
+    render json: @bahai_cluster, serializer: BahaiClusterSerializer
   end
 
   def update
