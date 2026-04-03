@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :update, :update_config, :map_bundle, :duplicate]
+  before_action :set_project, only: [:show, :update, :update_config, :map_bundle, :duplicate, :destroy]
 
   def index
     projects = Project.order(updated_at: :desc)
@@ -14,6 +14,7 @@ class ProjectsController < ApplicationController
     project = Project.new(project_create_params)
 
     if project.save
+      Projects::LayerItemsSeeder.seed(project)
       render json: project_payload(project), status: :created
     else
       render json: { errors: project.errors.full_messages }, status: :unprocessable_entity
@@ -39,6 +40,11 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def destroy
+    @project.destroy
+    head :no_content
+  end
+
   def map_bundle
     render json: ::Projects::MapBundleBuilder.new(@project).call
   end
@@ -60,6 +66,20 @@ class ProjectsController < ApplicationController
           rules: legend.rules.deep_dup
         )
       end
+
+      # Copy layer items from source project
+      rows = @project.project_layer_items.map do |li|
+        {
+          project_id: copy.id,
+          layer_slug: li.layer_slug,
+          item_type:  li.item_type,
+          item_id:    li.item_id,
+          sort_order: li.sort_order,
+          created_at: Time.current,
+          updated_at: Time.current,
+        }
+      end
+      ProjectLayerItem.insert_all(rows, unique_by: :index_project_layer_items_unique_per_project) if rows.any?
 
       render json: project_payload(copy), status: :created
     else

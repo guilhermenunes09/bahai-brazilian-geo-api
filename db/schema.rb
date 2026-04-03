@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_03_080742) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_03_215140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_080742) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_type", "item_id"], name: "index_project_layer_items_on_item_type_and_item_id"
+    t.index ["project_id", "item_type", "item_id"], name: "index_project_layer_items_unique_per_project", unique: true
     t.index ["project_id", "layer_slug"], name: "index_project_layer_items_on_project_id_and_layer_slug"
   end
 

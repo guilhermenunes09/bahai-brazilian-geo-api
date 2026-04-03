@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :regions, only: [:index, :show]
   resources :countries, only: [:index, :show]
 
-  resources :projects, only: [:index, :show, :create, :update] do
+  resources :projects, only: [:index, :show, :create, :update, :destroy] do
     member do
       get :map_bundle
       patch :config, action: :update_config
