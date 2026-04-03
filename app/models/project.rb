@@ -2,6 +2,7 @@ class Project < ApplicationRecord
   SCOPE_MODES = %w[region country].freeze
 
   has_many :project_legends, dependent: :destroy
+  has_many :project_layer_items, dependent: :destroy
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true

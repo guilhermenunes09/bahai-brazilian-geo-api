@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post :duplicate
     end
     resources :project_legends, only: [:index, :create]
+    resources :project_layer_items, only: [:index, :create, :destroy]
   end
 
   resources :project_legends, only: [:update, :destroy]

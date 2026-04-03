@@ -1,15 +1,32 @@
 module Projects
   class MapBundleBuilder
+    # These layers always include ALL records — no per-item curation needed.
+    BULK_LAYERS = {
+      'states'        => -> { State.all },
+      'bahai_zones'   => -> { BahaiZone.includes(:region).all },
+      'bahai_regions' => -> { BahaiRegion.all },
+      'regions'       => -> { Region.all },
+      'countries'     => -> { Country.all },
+    }.freeze
+
+    BULK_SERIALIZERS = {
+      'states'        => StateSerializer,
+      'bahai_zones'   => BahaiZoneSerializer,
+      'bahai_regions' => BahaiRegionSerializer,
+      'regions'       => RegionSerializer,
+      'countries'     => CountrySerializer,
+    }.freeze
+
     def initialize(project)
       @project = project
     end
 
     def call
       {
-        project: project_payload,
-        config: project.merged_config,
-        layersData: layers_data,
-        legends: serialize_legends
+        project:    project_payload,
+        config:     project.merged_config,
+        layerItems: assemble_layer_items,
+        legends:    serialize_legends
       }
     end
 
@@ -19,78 +36,55 @@ module Projects
 
     def project_payload
       {
-        id: project.id,
-        name: project.name,
-        slug: project.slug,
-        scope_mode: project.scope_mode,
-        scope_region_name: project.scope_region_name,
-        scope_country_name: project.scope_country_name,
-        status: project.status,
-        updated_at: project.updated_at
+        id:                  project.id,
+        name:                project.name,
+        slug:                project.slug,
+        scope_mode:          project.scope_mode,
+        scope_region_name:   project.scope_region_name,
+        scope_country_name:  project.scope_country_name,
+        status:              project.status,
+        updated_at:          project.updated_at
       }
     end
 
-    def layers_data
-      {
-        bahai_clusters: serialize_bahai_clusters,
-        bahai_zones: serialize_bahai_zones,
-        states: serialize_states,
-        bahai_regions: serialize_bahai_regions,
-        regions: serialize_regions,
-        countries: serialize_countries
-      }
+    def assemble_layer_items
+      result = bulk_layer_items
+      result['bahai_clusters'] = curated_cluster_items
+      result
     end
 
-    def serialize_bahai_clusters
-      records = BahaiCluster.includes(bahai_zone: :region)
-
-      if project.scope_mode == 'region' && project.scope_region_name.present?
-        records = records.joins(bahai_zone: :region).where(regions: { name: project.scope_region_name })
+    # Bulk layers: always load all records, serialize with their standard serializer.
+    def bulk_layer_items
+      BULK_LAYERS.each_with_object({}) do |(slug, loader), hash|
+        serializer = BULK_SERIALIZERS[slug]
+        records    = loader.call
+        hash[slug] = ActiveModelSerializers::SerializableResource
+          .new(records, each_serializer: serializer)
+          .as_json
       end
-
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiClusterSerializer).as_json
     end
 
-    def serialize_bahai_zones
-      # Only include zones that are actual conjuntos (have linked clusters).
-      # The bahai_zones table also contains orphaned municipality-level records
-      # (from old geojson imports) that are not linked to any cluster.
-      records = BahaiZone.includes(:region).joins(:bahai_clusters).distinct
+    # Curated layer: only items explicitly added to this project via project_layer_items.
+    def curated_cluster_items
+      items = project.project_layer_items
+        .where(layer_slug: 'bahai_clusters', item_type: 'bahai_clusters')
+        .order(:sort_order)
+      return [] if items.empty?
 
-      if project.scope_mode == 'region' && project.scope_region_name.present?
-        records = records.joins(:region).where(regions: { name: project.scope_region_name })
+      ids    = items.map(&:item_id)
+      loaded = BahaiCluster.where(id: ids).index_by(&:id)
+      li_map = items.index_by(&:item_id)
+
+      ids.filter_map do |item_id|
+        record = loaded[item_id]
+        next unless record
+
+        li = li_map[item_id]
+        ActiveModelSerializers::SerializableResource
+          .new(record, serializer: BahaiClusterMapSerializer)
+          .as_json
+          .merge('project_layer_item_id' => li.id)
       end
-
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiZoneSerializer).as_json
-    end
-
-    def serialize_states
-      ActiveModelSerializers::SerializableResource.new(State.all, each_serializer: StateSerializer).as_json
-    end
-
-    def serialize_bahai_regions
-      records = BahaiRegion.all
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: BahaiRegionSerializer).as_json
-    end
-
-    def serialize_regions
-      records = Region.all
-
-      if project.scope_mode == 'region' && project.scope_region_name.present?
-        records = records.where(name: project.scope_region_name)
-      end
-
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: RegionSerializer).as_json
-    end
-
-    def serialize_countries
-      records = Country.all
-
-      if project.scope_mode == 'country' && project.scope_country_name.present?
-        records = records.where(name: project.scope_country_name)
-      end
-
-      ActiveModelSerializers::SerializableResource.new(records, each_serializer: CountrySerializer).as_json
     end
 
     def serialize_legends

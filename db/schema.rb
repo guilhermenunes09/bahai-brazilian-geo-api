@@ -65,6 +65,18 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_080742) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_layer_items", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.string "layer_slug", null: false
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.integer "sort_order", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_type", "item_id"], name: "index_project_layer_items_on_item_type_and_item_id"
+    t.index ["project_id", "layer_slug"], name: "index_project_layer_items_on_project_id_and_layer_slug"
+  end
+
   create_table "project_legends", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.string "name", null: false
@@ -111,6 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_080742) do
   add_foreign_key "bahai_zones", "regions"
   add_foreign_key "cities", "bahai_clusters"
   add_foreign_key "cities", "states"
+  add_foreign_key "project_layer_items", "projects", on_delete: :cascade
   add_foreign_key "project_legends", "projects"
   add_foreign_key "states", "regions"
 end
