@@ -3,8 +3,8 @@ module Paginatable
 
   private
 
-  def apply_pagination_and_sort(scope, allowed_columns:, serializer:, column_map: {})
-    # column_map values: { expr: 'table.col', text: true/false }
+  def apply_pagination_and_sort(scope, allowed_columns:, serializer:, column_map: {}, search_map: {})
+    # column_map / search_map values: { expr: 'table.col', text: true/false }
     sort_by_param = params[:sort_by].to_s
     if column_map.key?(sort_by_param)
       entry     = column_map[sort_by_param]
@@ -24,6 +24,19 @@ module Paginatable
     sort_dir    = params[:sort_dir] == 'desc' ? 'desc' : 'asc'
     order_expr  = is_text ? "unaccent(#{sort_expr}::text) #{sort_dir}" : "#{sort_expr} #{sort_dir}"
     scope       = scope.reorder(Arel.sql(order_expr))
+
+    # Search
+    search_by    = params[:search_by].to_s
+    search_query = params[:search_query].to_s.strip
+    if search_map.key?(search_by) && search_query.present?
+      entry = search_map[search_by]
+      expr  = entry[:expr]
+      if entry[:text]
+        scope = scope.where("unaccent(#{expr}::text) ILIKE unaccent(?)", "%#{search_query}%")
+      else
+        scope = scope.where("#{expr}::text ILIKE ?", "%#{search_query}%")
+      end
+    end
 
     # Pagination
     per_page    = [[( params[:per_page] || 20).to_i, 1].max, 100].min

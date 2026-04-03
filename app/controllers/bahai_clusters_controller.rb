@@ -11,6 +11,12 @@ class BahaiClustersController < ApplicationController
     'zone'      => { expr: 'bahai_zones.name',         text: true  },
     'region'    => { expr: 'regions.name',             text: true  },
   }.freeze
+  SEARCH_MAP = {
+    'name'      => { expr: 'bahai_clusters.name', text: true  },
+    'milestone' => { expr: 'bahai_clusters.milestone', text: false },
+    'zone'      => { expr: 'bahai_zones.name',    text: true  },
+    'region'    => { expr: 'regions.name',        text: true  },
+  }.freeze
 
   def index
     # eager_load keeps both joins available for filtering AND sort-by-association columns
@@ -25,6 +31,7 @@ class BahaiClustersController < ApplicationController
       apply_pagination_and_sort(scope,
         allowed_columns: SORTABLE_COLUMNS,
         column_map:      COLUMN_MAP,
+        search_map:      SEARCH_MAP,
         serializer:      BahaiClusterListSerializer)
     else
       render json: scope.order(:name), each_serializer: BahaiClusterSerializer
