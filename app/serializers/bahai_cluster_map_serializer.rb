@@ -1,5 +1,5 @@
 class BahaiClusterMapSerializer < ActiveModel::Serializer
-  attributes :id, :uuid, :name, :milestone, :active, :geojson_data
+  attributes :id, :uuid, :name, :milestone, :active, :geojson_data, :unified_geojson_data
 
   attribute :bahai_zone do
     {

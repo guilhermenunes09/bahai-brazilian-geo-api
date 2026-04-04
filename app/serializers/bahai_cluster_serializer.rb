@@ -1,5 +1,5 @@
 class BahaiClusterSerializer < ActiveModel::Serializer
-  attributes :id, :uuid, :name, :milestone, :bahai_zone, :active, :geojson_data, :cities
+  attributes :id, :uuid, :name, :milestone, :bahai_zone, :active, :geojson_data, :unified_geojson_data, :cities
 
   def cities
     object.cities.map { |c| { id: c.id, name: c.name, geojson_data: c.geojson_data } }
