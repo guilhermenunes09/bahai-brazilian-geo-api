@@ -14,7 +14,7 @@ module Projects
     # Eager-load associations needed per type
     LOADER_MAP = {
       'bahai_clusters' => ->(ids) { BahaiCluster.includes(:cities, bahai_zone: :region).where(id: ids) },
-      'bahai_zones'    => ->(ids) { BahaiZone.includes(:region, :bahai_clusters).where(id: ids) },
+      'bahai_zones'    => ->(ids) { BahaiZone.includes(:region, bahai_clusters: :cities).where(id: ids) },
       'states'         => ->(ids) { State.includes(:region).where(id: ids) },
       'bahai_regions'  => ->(ids) { BahaiRegion.where(id: ids) },
       'regions'        => ->(ids) { Region.where(id: ids) },

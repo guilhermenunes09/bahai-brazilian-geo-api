@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :cities, only: [:index, :show]
+  resources :cities, only: [:index, :show, :update]
   resources :bahai_clusters, only: [:index, :show, :update]
   resources :bahai_zones, only: [:index, :show, :update]
   resources :states, only: [:index, :show]
