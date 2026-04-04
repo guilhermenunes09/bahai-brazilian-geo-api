@@ -1,3 +1,6 @@
+require 'rgeo'
+require 'rgeo/geo_json'
+
 module BahaiZones
   class UnifyGeojsonService
     def initialize(zone)
@@ -26,6 +29,7 @@ module BahaiZones
       union_geom = geometries.reduce { |acc, g| safe_union(acc, g) }
       return false unless union_geom
 
+      union_geom = strip_holes(union_geom)
       encoded = RGeo::GeoJSON.encode(union_geom)
       unified = {
         'type'     => 'FeatureCollection',
@@ -44,10 +48,8 @@ module BahaiZones
 
     def collect_features
       zone.bahai_clusters.flat_map do |cluster|
-        cluster.cities.filter_map do |city|
-          next unless city.geojson_data.present?
-          city.geojson_data['features']
-        end.flatten
+        next [] unless cluster.unified_geojson_data.present?
+        cluster.unified_geojson_data['features'] || []
       end
     end
 
@@ -55,6 +57,19 @@ module BahaiZones
       geom_a.union(geom_b)
     rescue StandardError
       geom_a
+    end
+
+    def strip_holes(geom)
+      factory = geom.factory
+      case geom.geometry_type.type_name
+      when 'Polygon'
+        factory.polygon(geom.exterior_ring)
+      when 'MultiPolygon'
+        polys = geom.map { |p| factory.polygon(p.exterior_ring) }
+        factory.multi_polygon(polys)
+      else
+        geom
+      end
     end
   end
 end

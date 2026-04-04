@@ -81,7 +81,33 @@ module Projects
         end
       end
 
+      # Resolve custom layers stored in project config
+      custom_layers = project.merged_config['customLayers'] || []
+      custom_layers.each do |custom_layer|
+        slug  = custom_layer['slug']
+        items = custom_layer['items'] || []
+        result[slug] = resolve_custom_items(items)
+      end
+
       result
+    end
+
+    def resolve_custom_items(items)
+      items.filter_map do |item_ref|
+        type = item_ref['type']
+        id   = item_ref['id']
+        serializer = SERIALIZER_MAP[type]
+        loader     = LOADER_MAP[type]
+        next unless serializer && loader
+
+        record = loader.call([id]).first
+        next unless record
+
+        ActiveModelSerializers::SerializableResource
+          .new(record, serializer: serializer)
+          .as_json
+          .merge('_itemType' => type)
+      end
     end
 
     def serialize_legends
