@@ -1,5 +1,5 @@
 class BahaiZoneSerializer < ActiveModel::Serializer
-  attributes :id, :name, :region, :geojson_data, :clusters
+  attributes :id, :name, :region, :geojson_data, :unified_geojson_data, :clusters
 
   def region
     {
